@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './Login.css'
 import { auth } from './firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import AuthDetails from './AuthDetails'
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -39,6 +40,7 @@ function Login() {
         </form>
 
       </div>
+      <AuthDetails/>
     </>
   )
 }
