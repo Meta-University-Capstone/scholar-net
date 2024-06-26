@@ -14,7 +14,6 @@ const AuthDetails = () => {
             } else{
                 setAuthUser(null)
             }
-
         } )
 
         return () => {
