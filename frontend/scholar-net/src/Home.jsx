@@ -15,11 +15,15 @@ function Home (){
     return(
         <>
         <h1>Scholar-Net</h1>
-        <Link to={`/search`}>
-            <button  className="search-btn">Search</button>
-        </Link>
-
-        <p>Find your top matches for scholarships!</p>
+        <div className="nav-btns">
+            <Link to={`/search`}>
+                <button  className="search-btn">Search</button>
+            </Link>
+            <Link to={`/profile`}>
+                <button  className="profile-btn">Your Profile</button>
+            </Link>
+        </div>
+        <p>Your top matches for scholarships!</p>
         <ProfileMatchList/>
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>

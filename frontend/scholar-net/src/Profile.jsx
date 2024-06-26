@@ -7,7 +7,7 @@ function Profile(){
             <h3>Name</h3>
             <p>Role</p>
             <p>Bio</p>
-            <button>View Posts</button>
+            <button>View Page</button>
         </div>
     )
 }
