@@ -15,7 +15,10 @@ function Login() {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        console.log(userCredential);
+        const firebaseUserId = userCredential.user.uid;
+        const userEmail = userCredential.user.email;
+        console.log(userEmail);
+        console.log(firebaseUserId);
     }).catch((error) => {
         console.log(error);
     });

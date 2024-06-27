@@ -2,11 +2,15 @@ import ProfileMatchList from "./ProfileMatchList"
 import './Home.css'
 import ConnectionsSidebar from "./ConnectionsSidebar";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
+    const [user, setUser] = useState();
+
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
