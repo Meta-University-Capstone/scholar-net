@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './Login.css'
 import { auth } from './firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { Link } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -37,8 +38,11 @@ function Register() {
             <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
             <button type='submit'>Register</button>
         </form>
-
       </div>
+      <p>Already have an account?</p>
+      <Link to={`/login`}>
+        <p>Login</p>
+      </Link>
     </>
   )
 }

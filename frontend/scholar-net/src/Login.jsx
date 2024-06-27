@@ -5,6 +5,7 @@ import './Login.css'
 import { auth } from './firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import AuthDetails from './AuthDetails'
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -38,8 +39,11 @@ function Login() {
             <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
             <button type='submit'>Log In</button>
         </form>
-
       </div>
+      <p>Don't have an account?</p>
+      <Link to={`/register`}>
+        <p>Register</p>
+      </Link>
       <AuthDetails/>
     </>
   )
