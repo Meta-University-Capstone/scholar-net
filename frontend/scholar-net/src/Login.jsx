@@ -6,10 +6,12 @@ import { auth } from './firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import AuthDetails from './AuthDetails'
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const signIn = (e) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ function Login() {
     .then((userCredential) => {
         const firebaseUserId = userCredential.user.uid;
         const userEmail = userCredential.user.email;
+        navigate("/")
         console.log(userEmail);
         console.log(firebaseUserId);
     }).catch((error) => {
