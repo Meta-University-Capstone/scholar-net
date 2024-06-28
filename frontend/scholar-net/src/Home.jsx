@@ -5,12 +5,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
 import CreateAProfile from "./CreateAProfile";
+import { auth } from "./firebase";
 
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
     const [showProfileForm, setShowProfileForm] = useState(false);
+    const [hasProfile, setHasProfile] = useState(false);
 
 
     const toggleSidebar = () => {
@@ -20,6 +21,29 @@ function Home (){
     const toggleProfileForm = () => {
         setShowProfileForm(!showProfileForm);
     };
+
+    useEffect(() => {
+        const checkUserProfile = async () => {
+          try {
+            const user = auth.currentUser;
+            if (user) {
+              // Fetch user profile information to determine if a profile exists
+              const response = await fetch(`http://localhost:3000/profile/${user.uid}`);
+              if (response.ok) {
+                const profiles = await response.json();
+                if (profiles.length > 0) {
+                  setHasProfile(true);
+                }
+              }
+            }
+          } catch (error) {
+            console.error('Error checking user profile:', error);
+          }
+        };
+
+        checkUserProfile();
+      }, []);
+
 
     return(
         <>
@@ -34,8 +58,14 @@ function Home (){
         </div>
         <p>Your top matches for scholarships!</p>
         <ProfileMatchList/>
-        <button onClick={toggleProfileForm}>Create a Profile</button>
-            {showProfileForm && <CreateAProfile />}
+
+        {!hasProfile && (
+        <>
+        <p>Don't have any matches yet?</p>
+          <button onClick={toggleProfileForm}>Create a Profile</button>
+          {showProfileForm && <CreateAProfile uid={auth.currentUser.uid} />}
+        </>
+      )}
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
        </div>

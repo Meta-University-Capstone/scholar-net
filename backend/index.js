@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.get('/profile/:userID', async (req, res) => {
+app.get('/profile', async (req, res) => {
     const userID = req.params.userID;
 
     try {

@@ -14,6 +14,7 @@ function CreateAProfile({ uid }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          name,
           bio,
           role,
           userID: uid,
