@@ -5,23 +5,46 @@ import './Login.css'
 import { auth } from './firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const register = (e) => {
-    e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const firebaseUserId = userCredential.user.uid;
-        const userEmail = userCredential.user.email;
-        console.log(userEmail);
-        console.log(firebaseUserId);
-    }).catch((error) => {
-        console.log(error);
-    });
-  }
+    const register = (e) => {
+        e.preventDefault();
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const firebaseUserId = userCredential.user.uid;
+            const userEmail = userCredential.user.email;
+            const userData = {
+                uid: firebaseUserId,
+                email: userEmail
+            };
+            fetch('http://localhost:3000/user/:uid/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                navigate("/user/:uid/")
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Error sending user data to server:', error);
+            });
+
+        }).catch((error) => {
+            console.log('Error creating user:', error);
+        });
+    }
+
 
 
 
