@@ -8,10 +8,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import CreateAProfile from "./CreateAProfile";
 import { auth } from "./firebase";
 
+
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
     const [showProfileForm, setShowProfileForm] = useState(false);
     const [hasProfile, setHasProfile] = useState(false);
+    const [userID, setUserID] = useState(null);
 
 
     const toggleSidebar = () => {
@@ -27,6 +29,7 @@ function Home (){
           try {
             const user = auth.currentUser;
             if (user) {
+                setUserID(user.uid);
               // Fetch user profile information to determine if a profile exists
               const response = await fetch(`http://localhost:3000/profile/${user.uid}`);
               if (response.ok) {
@@ -52,7 +55,7 @@ function Home (){
             <Link to={`/search`}>
                 <button  className="search-btn">Search</button>
             </Link>
-            <Link to={`/profile`}>
+            <Link to={`/profile/${userID}`}>
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
