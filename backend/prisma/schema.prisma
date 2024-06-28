@@ -25,6 +25,7 @@ model Profile {
   id          Int           @id @default(autoincrement())
   user        User          @relation(fields: [userID], references: [uid])
   userID      String
+  name        String
   bio         String
   role        String
   Post        Post[]

@@ -22,7 +22,7 @@ function Register() {
                 uid: firebaseUserId,
                 email: userEmail
             };
-            fetch('http://localhost:3000/user/:uid/', {
+            fetch('http://localhost:3000/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ function Register() {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                navigate("/user/:uid/")
+                navigate("/")
                 return response.json();
             })
             .catch(error => {

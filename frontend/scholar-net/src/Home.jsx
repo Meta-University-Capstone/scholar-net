@@ -6,15 +6,20 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import CreateAProfile from "./CreateAProfile";
 
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
-    const [user, setUser] = useState();
+    const [showProfileForm, setShowProfileForm] = useState(false);
 
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
       };
+
+    const toggleProfileForm = () => {
+        setShowProfileForm(!showProfileForm);
+    };
 
     return(
         <>
@@ -29,6 +34,8 @@ function Home (){
         </div>
         <p>Your top matches for scholarships!</p>
         <ProfileMatchList/>
+        <button onClick={toggleProfileForm}>Create a Profile</button>
+            {showProfileForm && <CreateAProfile />}
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
        </div>
