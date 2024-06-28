@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import CreateAProfile from "./CreateAProfile";
 import { auth } from "./firebase";
-
+import AuthDetails from "./AuthDetails";
 
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
@@ -51,6 +51,7 @@ function Home (){
     return(
         <>
         <h1>Scholar-Net</h1>
+        <AuthDetails/>
         <div className="nav-btns">
             <Link to={`/search`}>
                 <button  className="search-btn">Search</button>

@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './Login.css'
 import { auth } from './firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import AuthDetails from './AuthDetails'
+import AuthDetails from './AuthDetails';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 
