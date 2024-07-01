@@ -2,10 +2,12 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './ProfilePage.css'
+import CreateAPost from "./CreateAPost";
 
 function ProfilePage(){
 const[profile, setProfile] = useState({})
 const [editing, setEditing] = useState(false);
+const [showPostModal, setShowPostModal] = useState(false);
 
 const {userID} = useParams();
 const {id} = useParams();
@@ -30,6 +32,10 @@ const {id} = useParams();
     });
     setProfile(updatedProfile);
     setEditing(false);
+  };
+
+  const togglePostModal = () => {
+    setShowPostModal(!showPostModal);
   };
 
 
@@ -99,7 +105,8 @@ const {id} = useParams();
         </div>
 
         <div className="user-posts">
-            <button>Create an Update Post</button>
+            <button onClick={togglePostModal}>Create an Update Post</button>
+            {showPostModal && <CreateAPost userID={userID} onClose={togglePostModal} />}
         </div>
 
 

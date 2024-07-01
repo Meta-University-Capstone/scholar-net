@@ -7,6 +7,7 @@ function ProfileMatchList(){
         <>
             <div className="profile-match-list">
                 <Profile/>
+                <Profile/>
             </div>
         </>
     )

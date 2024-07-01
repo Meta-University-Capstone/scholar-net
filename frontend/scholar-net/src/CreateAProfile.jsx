@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './CreateAProfile.css';
 
-function CreateAProfile({ uid }) {
+function CreateAProfile() {
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [role, setRole] = useState('');
+
+  const {uid} = useParams();
 
   const makeProfile = async () => {
     try {

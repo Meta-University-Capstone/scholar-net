@@ -1,12 +1,12 @@
 import React from "react";
 
-function Profile(props){
+function Profile(){
 
     return(
         <div className="profile">
-            <h3>{props.name}</h3>
-            <p>{props.role}</p>
-            <p>{props.bio}</p>
+            <h3>Name</h3>
+            <p>Role</p>
+            <p>Bio</p>
             <button>View Page</button>
         </div>
     )

@@ -88,7 +88,6 @@ app.post('/profile', async (req, res) => {
 
 app.put('/profile/:uid/:id', async (req, res) => {
     const { name, bio, role } = req.body;
-    const userID = req.params.uid;
     const id = req.params.id;
 
     try {
@@ -105,6 +104,28 @@ app.put('/profile/:uid/:id', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+app.post('/posts', async (req, res) => {
+    const { userID, title, content } = req.body;
+
+    try {
+      const newPost = await prisma.post.create({
+        data: {
+          userID,
+          title,
+          content,
+          likeCount: 0,
+          created_at: new Date().toISOString(),
+        },
+      });
+
+      res.status(201).json(newPost);
+    } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

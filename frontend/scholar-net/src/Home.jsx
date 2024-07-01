@@ -60,7 +60,7 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <p>Your top matches for scholarships!</p>
+        <p>Your top matches!</p>
         <ProfileMatchList/>
 
         {!hasProfile && (
