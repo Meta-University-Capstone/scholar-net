@@ -41,7 +41,7 @@ function CreateAProfile({ uid }) {
           makeProfile();
         }}>
           <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="text" placeholder="What's your goal? What do you hope to acheive?" value={bio} onChange={(e) => setBio(e.target.value)} />
+          <textarea type="text" placeholder="What's your goal? What do you hope to acheive?" value={bio} onChange={(e) => setBio(e.target.value)} />
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="">Select a role</option>
             <option value="High School Student">High School Student</option>

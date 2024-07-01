@@ -86,7 +86,23 @@ app.post('/profile', async (req, res) => {
     }
 });
 
+app.put('/profile/:uid', async (req, res) => {
+    const { name, bio, role } = req.body;
 
+    try {
+      const profile = await prisma.profile.update({
+        where: { userID: req.params.uid },
+        data: { name, bio, role },
+        include: {
+          user: true},
+      });
+
+      res.status(200).json(profile);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
