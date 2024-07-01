@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.get('/profile/:userID', async (req, res) => {
+app.get('/:userID/profile', async (req, res) => {
     const userID = req.params.userID;
 
     try {
@@ -61,25 +61,7 @@ app.get('/profile/:userID', async (req, res) => {
     }
   });
 
-app.get('/profile', async (req, res) => {
-    const userID = req.params.userID;
 
-    try {
-        const profiles = await prisma.profile.findMany({
-            where: {
-                userID,
-            },
-            include: {
-                user: true,
-            },
-        });
-
-        res.status(200).json(profiles);
-    } catch (error) {
-        console.error('Error fetching profiles:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
 
 app.post('/profile', async (req, res) => {
     const { name, bio, role, userID } = req.body;

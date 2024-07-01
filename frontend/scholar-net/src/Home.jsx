@@ -31,7 +31,7 @@ function Home (){
             if (user) {
                 setUserID(user.uid);
               // Fetch user profile information to determine if a profile exists
-              const response = await fetch(`http://localhost:3000/profile/${user.uid}`);
+              const response = await fetch(`http://localhost:3000/${user.uid}/profile`);
               if (response.ok) {
                 const profiles = await response.json();
                 if (profiles.length > 0) {
@@ -56,7 +56,7 @@ function Home (){
             <Link to={`/search`}>
                 <button  className="search-btn">Search</button>
             </Link>
-            <Link to={`/profile/${userID}`}>
+            <Link to={`/${userID}/profile`}>
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>

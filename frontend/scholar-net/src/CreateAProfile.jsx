@@ -8,7 +8,7 @@ function CreateAProfile({ uid }) {
 
   const makeProfile = async () => {
     try {
-      const response = await fetch('http://localhost:3000/profile', {
+      const response = await fetch(`http://localhost:3000/profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

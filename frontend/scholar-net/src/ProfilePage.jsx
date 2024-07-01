@@ -1,15 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Profile from "./Profile";
 
 function ProfilePage(props){
-const[profile, setProfile] = useState([null])
+const[profile, setProfile] = useState({})
 
     useEffect(() => {
         const fetchProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/profile/${props.userID}`);
+            const response = await fetch(`http://localhost:3000/${props.userID}/profile`,{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            });
+
             if (response.ok) {
             const profiles = await response.json();
             if (profiles.length > 0) {
