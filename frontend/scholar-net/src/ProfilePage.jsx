@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function ProfilePage(props){
+function ProfilePage({uid}){
 const[profile, setProfile] = useState({})
 
     useEffect(() => {
         const fetchProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/${props.userID}/profile`,{
+            const response = await fetch(`http://localhost:3000/profile/${uid}`,{
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const[profile, setProfile] = useState({})
         }
         };
         fetchProfile();
-    }, [props.userID]);
+    }, [uid]);
 
     if (!profile) {
         return <p>Loading...</p>;
