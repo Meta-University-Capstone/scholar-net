@@ -1,11 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './ProfilePage.css'
 
-function ProfilePage({uid}){
+function ProfilePage(){
 const[profile, setProfile] = useState({})
 const [editing, setEditing] = useState(false);
+
+const {userID} = useParams();
+const {id} = useParams();
 
 
   const handleEditClick = () => {
@@ -13,12 +16,17 @@ const [editing, setEditing] = useState(false);
   };
 
   const handleSaveClick = async () => {
-    const updatedProfile = await fetch(`http://localhost:3000/profile/${uid}`, {
+    const updatedProfile = await fetch(`http://localhost:3000/profile/${userID}/${profile.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(profile),
+      body: JSON.stringify({
+        userID: profile.userID,
+        name: profile.name,
+        bio: profile.bio,
+        role: profile.role,
+      }), id: profile.id,
     });
     setProfile(updatedProfile);
     setEditing(false);
@@ -28,7 +36,7 @@ const [editing, setEditing] = useState(false);
     useEffect(() => {
         const fetchProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/profile/${uid}`,{
+            const response = await fetch(`http://localhost:3000/profile/${userID}`,{
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +54,7 @@ const [editing, setEditing] = useState(false);
         }
         };
         fetchProfile();
-    }, [uid]);
+    }, [userID]);
 
     if (!profile) {
         return <p>Loading...</p>;

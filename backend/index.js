@@ -86,12 +86,14 @@ app.post('/profile', async (req, res) => {
     }
 });
 
-app.put('/profile/:uid', async (req, res) => {
+app.put('/profile/:uid/:id', async (req, res) => {
     const { name, bio, role } = req.body;
+    const userID = req.params.uid;
+    const id = req.params.id;
 
     try {
       const profile = await prisma.profile.update({
-        where: { userID: req.params.uid },
+        where: { id: Number(id) },
         data: { name, bio, role },
         include: {
           user: true},
