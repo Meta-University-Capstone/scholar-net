@@ -1,4 +1,4 @@
-import ProfileMatchList from "./ProfileMatchList"
+import ProfileMatchList from "./FeedList"
 import './Home.css'
 import ConnectionsSidebar from "./ConnectionsSidebar";
 import React from "react";

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./CreateAPost.css";
+import { useParams } from "react-router";
 
-function CreateAPost({ userID, onClose }) {
+function CreateAPost({ onClose }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const {uid} = useParams();
+
 
   const handleChange = (e) => {
     if (e.target.name === "title") {
@@ -16,13 +19,13 @@ function CreateAPost({ userID, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/posts`, {
+      const response = await fetch(`http://localhost:3000/profile/${uid}posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userID,
+          uid,
           title,
           content: text,
         }),

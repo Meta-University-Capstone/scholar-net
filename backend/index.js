@@ -105,7 +105,7 @@ app.put('/profile/:uid/:id', async (req, res) => {
     }
 });
 
-app.post('/posts', async (req, res) => {
+app.post('/profile/:uid/posts', async (req, res) => {
     const { userID, title, content } = req.body;
 
     try {
