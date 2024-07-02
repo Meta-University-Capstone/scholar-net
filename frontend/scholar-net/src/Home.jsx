@@ -14,6 +14,7 @@ function Home (){
     const [showProfileForm, setShowProfileForm] = useState(false);
     const [hasProfile, setHasProfile] = useState(false);
     const [userID, setUserID] = useState(null);
+    const [showPostModal, setShowPostModal] = useState(false);
 
 
     const toggleSidebar = () => {
@@ -24,13 +25,16 @@ function Home (){
         setShowProfileForm(!showProfileForm);
     };
 
+    const togglePostModal = () => {
+        setShowPostModal(!showPostModal);
+      };
+
     useEffect(() => {
         const checkUserProfile = async () => {
           try {
             const user = auth.currentUser;
             if (user) {
                 setUserID(user.uid);
-              // Fetch user profile information to determine if a profile exists
               const response = await fetch(`http://localhost:3000/profile/${user.uid}`);
               if (response.ok) {
                 const profiles = await response.json();
@@ -72,8 +76,12 @@ function Home (){
       )}
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
-       </div>
-        <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar}/>
+            <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar}/>
+        </div>
+        <div className="user-posts">
+            <button onClick={togglePostModal}>Create a Post</button>
+            {showPostModal && <CreateAPost userID={userID} onClose={togglePostModal} />}
+        </div>
         <footer className='footer'>
             <p>©️ Helping The Future of Education</p>
         </footer>

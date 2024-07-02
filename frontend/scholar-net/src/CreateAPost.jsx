@@ -63,7 +63,7 @@ function CreateAPost({ onClose }) {
               onChange={handleChange}
             />
           </label>
-          <button type="submit">Create an Update Post</button>
+          <button type="submit">Create a Post</button>
         </form>
       </div>
     </div>
