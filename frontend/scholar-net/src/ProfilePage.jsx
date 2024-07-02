@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './ProfilePage.css'
-import CreateAPost from "./CreateAPost";
 
 function ProfilePage(){
 const[profile, setProfile] = useState({})
@@ -100,6 +99,9 @@ const {id} = useParams();
                 </div>
             )}
 
+        </div>
+        <div className="users-posts">
+            <h3>Your Posts</h3>
         </div>
         </>
 

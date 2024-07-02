@@ -8,6 +8,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import CreateAProfile from "./CreateAProfile";
 import { auth } from "./firebase";
 import AuthDetails from "./AuthDetails";
+import CreateAPost from "./CreateAPost";
+import FeedList from "./FeedList";
 
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
@@ -64,12 +66,12 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <p>Your top matches!</p>
-        <ProfileMatchList/>
+        <p>Feed</p>
+        <FeedList/>
 
         {!hasProfile && (
         <>
-        <p>Don't have any matches yet?</p>
+        <p>Create a Profile to get started!</p>
           <button onClick={toggleProfileForm}>Create a Profile</button>
           {showProfileForm && <CreateAProfile uid={auth.currentUser.uid} />}
         </>
