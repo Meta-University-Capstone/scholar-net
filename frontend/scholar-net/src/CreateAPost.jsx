@@ -25,9 +25,10 @@ function CreateAPost({ onClose }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          uid,
-          title,
-          content: text,
+            userID: uid,
+            title,
+            location: "Menlo Park",
+            content: text,
         }),
       });
       if (response.ok) {
