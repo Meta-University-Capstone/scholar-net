@@ -5,16 +5,22 @@ import { useParams } from "react-router";
 function CreateAPost({ onClose }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [location, setLocation] = useState("");
+  const [fieldInterest, setFieldInterest] = useState("");
   const {uid} = useParams();
 
 
   const handleChange = (e) => {
     if (e.target.name === "title") {
-      setTitle(e.target.value);
+        setTitle(e.target.value);
     } else if (e.target.name === "text") {
-      setText(e.target.value);
+        setText(e.target.value);
+    } else if (e.target.name === "location") {
+        setLocation(e.target.value);
+    } else if (e.target.name === "fieldInterest") {
+        setFieldInterest(e.target.value);
     }
-  };
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,13 +33,16 @@ function CreateAPost({ onClose }) {
         body: JSON.stringify({
             userID: uid,
             title,
-            location: "Menlo Park",
+            location,
+            field_interest,
             content: text,
         }),
       });
       if (response.ok) {
         setTitle("");
         setText("");
+        setLocation("");
+        setFieldInterest("");
         onClose();
       }
     } catch (error) {
@@ -57,7 +66,26 @@ function CreateAPost({ onClose }) {
             />
           </label>
           <label>
-            Text:{" "}
+            Location:{" "}
+            <input
+              type="text"
+              name="location"
+              placeholder="City, State"
+              value={location}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Field of Interest:{" "}
+            <input
+              type="text"
+              name="fieldInterest"
+              value={fieldInterest}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Content:{" "}
             <textarea
               name="text"
               value={text}

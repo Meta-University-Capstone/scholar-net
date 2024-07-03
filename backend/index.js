@@ -107,7 +107,7 @@ app.put('/profile/:uid/:id', async (req, res) => {
 
 app.post('/profile/:uid/posts', async (req, res) => {
     const { uid } = req.params;
-    const { title, content, location } = req.body;
+    const { title, content, location, field_interest } = req.body;
 
     try {
       const newPost = await prisma.post.create({
@@ -116,6 +116,7 @@ app.post('/profile/:uid/posts', async (req, res) => {
           title,
           content,
           location,
+          field_interest,
           likeCount: 0,
           created_at: new Date().toISOString(),
         },
