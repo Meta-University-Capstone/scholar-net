@@ -17,6 +17,16 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
+const checkUserID = (req, res, next) => {
+    const { userID } = req.body;
+    if (!userID) {
+      return res.status(400).json({ error: 'Missing user ID' });
+    }
+    req.userID = userID;
+    next();
+};
+
+
 
 app.post('/register', async (req, res) => {
     const { uid, email } = req.body;
@@ -41,11 +51,13 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send(`
+    <html>Hello World!</html>`);
 });
 
 app.get('/profile/:uid', async (req, res) => {
-    const userID = req.params.userID;
+    const userID = req.params.uid;
+    console.log('Fetching profile for userID:', userID);
 
     try {
       const profiles = await prisma.profile.findMany({
@@ -54,6 +66,7 @@ app.get('/profile/:uid', async (req, res) => {
         },
       });
 
+      console.log('Fetched profiles:', profiles);
       res.status(200).json(profiles);
     } catch (error) {
       console.error('Error fetching profiles:', error);
@@ -64,7 +77,8 @@ app.get('/profile/:uid', async (req, res) => {
 
 
 app.post('/profile', async (req, res) => {
-    const { name, bio, role, userID } = req.body;
+    const { name, bio, role, userID} = req.body;
+    console.log('Received request data:', { name, bio, role, userID });
 
     try {
         const profile = await prisma.profile.create({
@@ -72,7 +86,7 @@ app.post('/profile', async (req, res) => {
                 name,
                 bio,
                 role,
-                userID,
+                user: {connect: { uid: userID }},
             },
             include: {
                 user: true
@@ -86,7 +100,7 @@ app.post('/profile', async (req, res) => {
     }
 });
 
-app.put('/profile/:uid/:id', async (req, res) => {
+app.put('/profile/:uid/:id', checkUserID, async (req, res) => {
     const { name, bio, role } = req.body;
     const id = req.params.id;
 
@@ -105,7 +119,7 @@ app.put('/profile/:uid/:id', async (req, res) => {
     }
 });
 
-app.post('/profile/:uid/posts', async (req, res) => {
+app.post('/profile/:uid/posts', checkUserID, async (req, res) => {
     const { uid } = req.params;
     const { title, content, location, field_interest } = req.body;
 
@@ -126,6 +140,15 @@ app.post('/profile/:uid/posts', async (req, res) => {
     } catch (error) {
       console.error('Error creating post:', error);
       res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  app.get('/posts', async (req, res) => {
+    try{
+      const posts = await prisma.posts.findMany();
+      res.json(posts);
+    }catch(err){
+      res.status(500).json({err: 'Internal Server Error'})
     }
   });
 

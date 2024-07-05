@@ -34,12 +34,13 @@
     border-radius: 5px;
 }
 
-form{
+.form{
     display: flex;
     flex-direction: column;
     gap: 20px;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 .create-button {

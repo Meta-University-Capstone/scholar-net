@@ -1,10 +1,8 @@
-import ProfileMatchList from "./FeedList"
 import './Home.css'
 import ConnectionsSidebar from "./ConnectionsSidebar";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
 import CreateAProfile from "./CreateAProfile";
 import { auth } from "./firebase";
 import AuthDetails from "./AuthDetails";
@@ -19,12 +17,13 @@ function Home (){
     const [showPostModal, setShowPostModal] = useState(false);
 
 
+
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
       };
 
     const toggleProfileForm = () => {
-        setShowProfileForm(!showProfileForm);
+        setShowProfileForm(!showProfileForm)
     };
 
     const togglePostModal = () => {
@@ -35,8 +34,9 @@ function Home (){
         const checkUserProfile = async () => {
           try {
             const user = auth.currentUser;
+            console.log(user)
             if (user) {
-                setUserID(user.uid);
+              setUserID(user.uid);
               const response = await fetch(`http://localhost:3000/profile/${user.uid}`);
               if (response.ok) {
                 const profiles = await response.json();
@@ -70,12 +70,12 @@ function Home (){
         <FeedList/>
 
         {!hasProfile && (
-        <>
-        <p>Create a Profile to get started!</p>
+        <div className='create-profile'>
+          <p>Create a Profile to get started!</p>
           <button onClick={toggleProfileForm}>Create a Profile</button>
-          {showProfileForm && <CreateAProfile uid={auth.currentUser.uid} />}
-        </>
-      )}
+          {showProfileForm && <CreateAProfile userID={userID}/>}
+        </div>
+        )}
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
             <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar}/>

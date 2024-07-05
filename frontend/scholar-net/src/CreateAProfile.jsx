@@ -1,44 +1,46 @@
 import React, { useState } from 'react';
 import './CreateAProfile.css';
 
-function CreateAProfile() {
+
+function CreateAProfile({userID}) {
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [role, setRole] = useState('');
 
-  const {uid} = useParams();
+
 
   const makeProfile = async () => {
     try {
+      const requestData = {
+        name,
+        bio,
+        role,
+        userID,
+      };
+
+      console.log('Sending request data:', requestData);
+
       const response = await fetch(`http://localhost:3000/profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name,
-          bio,
-          role,
-          userID: uid,
-        }),
+        body: JSON.stringify(requestData),
       });
+      const responseData = await response.json();
+      console.log('Response from server:', responseData);
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log('Profile created:', data);
     } catch (error) {
       console.error('Error creating profile:', error);
     }
   };
 
+
   return (
-    <div id="create-form" className="modal-overlay">
+    <div className="modal-overlay open">
       <div className="modal-content">
         <h1>Create a new profile</h1>
-        <form onSubmit={(e) => {
+        <form className='form' onSubmit={(e) => {
           e.preventDefault();
           makeProfile();
         }}>
@@ -55,5 +57,7 @@ function CreateAProfile() {
     </div>
   );
 }
+
+
 
 export default CreateAProfile;

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './ProfilePage.css'
+import Profile from "./Profile";
 
 function ProfilePage(){
 const[profile, setProfile] = useState({})
@@ -9,7 +10,6 @@ const [editing, setEditing] = useState(false);
 
 
 const {userID} = useParams();
-const {id} = useParams();
 
 
   const handleEditClick = () => {
@@ -17,7 +17,7 @@ const {id} = useParams();
   };
 
   const handleSaveClick = async () => {
-    const updatedProfile = await fetch(`http://localhost:3000/profile/${userID}/${profile.id}`, {
+    const response = await fetch(`http://localhost:3000/profile/${userID}/${profile.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -29,9 +29,11 @@ const {id} = useParams();
         role: profile.role,
       }), id: profile.id,
     });
-    setProfile(updatedProfile);
-    setEditing(false);
-  };
+    if (response.ok) {
+        const updatedProfile = await response.json();
+        setProfile(updatedProfile);
+        setEditing(false);
+  };}
 
 
 
@@ -71,9 +73,11 @@ const {id} = useParams();
         </Link>
         <div className="profile-info">
             <h3>Your Profile</h3>
-            <p>{profile.name}</p>
-            <p>{profile.role}</p>
-            <p>{profile.bio}</p>
+            <Profile
+            name={profile.name}
+            role={profile.role}
+            bio={profile.bio}
+            />
             <button onClick={handleEditClick}>Edit Profile</button>
 
             {editing && (
