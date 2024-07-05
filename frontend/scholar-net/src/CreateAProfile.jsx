@@ -26,7 +26,7 @@ function CreateAProfile({userID}) {
         body: JSON.stringify(requestData),
       });
       const responseData = await response.json();
-
+      console.log(responseData);
     } catch (error) {
       console.error('Error creating profile:', error);
     }
