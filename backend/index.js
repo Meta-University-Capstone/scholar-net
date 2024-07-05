@@ -57,7 +57,6 @@ app.get('/', (req, res) => {
 
 app.get('/profile/:uid', async (req, res) => {
     const userID = req.params.uid;
-    console.log('Fetching profile for userID:', userID);
 
     try {
       const profiles = await prisma.profile.findMany({
@@ -66,7 +65,6 @@ app.get('/profile/:uid', async (req, res) => {
         },
       });
 
-      console.log('Fetched profiles:', profiles);
       res.status(200).json(profiles);
     } catch (error) {
       console.error('Error fetching profiles:', error);
@@ -78,7 +76,6 @@ app.get('/profile/:uid', async (req, res) => {
 
 app.post('/profile', async (req, res) => {
     const { name, bio, role, userID} = req.body;
-    console.log('Received request data:', { name, bio, role, userID });
 
     try {
         const profile = await prisma.profile.create({

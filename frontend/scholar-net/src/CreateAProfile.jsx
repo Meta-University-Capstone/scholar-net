@@ -18,8 +18,6 @@ function CreateAProfile({userID}) {
         userID,
       };
 
-      console.log('Sending request data:', requestData);
-
       const response = await fetch(`http://localhost:3000/profile`, {
         method: 'POST',
         headers: {
@@ -28,7 +26,6 @@ function CreateAProfile({userID}) {
         body: JSON.stringify(requestData),
       });
       const responseData = await response.json();
-      console.log('Response from server:', responseData);
 
     } catch (error) {
       console.error('Error creating profile:', error);

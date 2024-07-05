@@ -20,8 +20,6 @@ function Login() {
         const firebaseUserId = userCredential.user.uid;
         const userEmail = userCredential.user.email;
         navigate("/")
-        console.log(userEmail);
-        console.log(firebaseUserId);
     }).catch((error) => {
         console.log(error);
     });
