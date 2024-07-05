@@ -1,6 +1,18 @@
 import React from "react";
 
 function Post(props){
+    const [likeCount, setLikeCount] = useState(0);
+
+    const handleLikeClick = () => {
+        if(unLike === "Like"){
+          setLikeCount(likeCount + 1);
+          setUnLike("Unlike")
+        } else{
+          setLikeCount(likeCount - 1);
+          setUnLike("Like")
+        }
+      };
+
     return(
         <div className="post">
             <h3>{props.title}</h3>
@@ -10,6 +22,9 @@ function Post(props){
             <p>{props.likeCount}</p>
             <p>{props.created_at}</p>
             <p>{props.updated_at}</p>
+            <div className='like-button'>
+                <button onClick={()=>handleLikeClick()}>{unLike}</button><span id="like-count">{likeCount}💗</span>
+            </div>
             <div className="delete-and-edit">
                 <button className="delete-btn">Delete</button>
                 <button className="edit-btn">Edit</button>
