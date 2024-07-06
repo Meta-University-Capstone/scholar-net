@@ -9,6 +9,8 @@ import AuthDetails from "./AuthDetails";
 import CreateAPost from "./CreateAPost";
 import FeedList from "./FeedList";
 
+
+
 function Home (){
     const [isOpen, setIsOpen] = useState(false);
     const [showProfileForm, setShowProfileForm] = useState(false);
@@ -17,6 +19,24 @@ function Home (){
     const [showPostModal, setShowPostModal] = useState(false);
     const [profileID, setProfileID] = useState(null);
 
+    async function getPosts() {
+        try {
+          const response = await fetch(`http://localhost:3000/posts`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+          );
+          if (!response.ok) {
+            throw new Error('Failed to fetch posts');
+          }
+          const data = await response.json();
+          setPosts(data);
+        } catch (error) {
+          console.error('Error fetching posts:', error);
+        }
+      }
 
 
     const toggleSidebar = () => {
@@ -51,9 +71,23 @@ function Home (){
             console.error('Error checking user profile:', error);
           }
         };
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                checkUserProfile();
+            } else {
+                setUserID(null);
+                setHasProfile(false);
+            }
+        });
 
-        checkUserProfile();
-      }, []);
+
+        return () => unsubscribe();
+    }, []);
+
+
+
+
+
 
 
     return(
@@ -68,7 +102,7 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <FeedList/>
+        <FeedList refreshPosts={()=>getPosts()} />
 
         {!hasProfile && (
         <div className='create-profile'>

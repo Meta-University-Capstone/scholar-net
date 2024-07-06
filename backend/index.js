@@ -143,7 +143,6 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
           profile: true,
         },
       });
-      console.log(postUser)
       res.status(201).json(newPost);
     } catch (error) {
       console.error('Error creating post:', error);
