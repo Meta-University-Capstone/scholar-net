@@ -68,7 +68,6 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <p>Feed</p>
         <FeedList/>
 
         {!hasProfile && (

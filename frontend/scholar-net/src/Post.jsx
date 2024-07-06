@@ -1,7 +1,10 @@
 import React from "react";
+import { useState } from "react";
 
 function Post(props){
     const [likeCount, setLikeCount] = useState(0);
+    const [unLike, setUnLike] = useState("Like");
+
 
     const handleLikeClick = () => {
         if(unLike === "Like"){
@@ -15,13 +18,13 @@ function Post(props){
 
     return(
         <div className="post">
+             <p>Name: {props.postUser}</p>
             <h3>{props.title}</h3>
-            <p>{props.content}</p>
             <p>{props.location}</p>
             <p>{props.field_interest}</p>
-            <p>{props.likeCount}</p>
-            <p>{props.created_at}</p>
-            <p>{props.updated_at}</p>
+            <p>{props.content}</p>
+            <p>Created: {new Date(props.created_at).toLocaleString()}</p>
+            <p>{props.updated_at ? new Date(props.updated_at).toLocaleString() : " "}</p>
             <div className='like-button'>
                 <button onClick={()=>handleLikeClick()}>{unLike}</button><span id="like-count">{likeCount}💗</span>
             </div>

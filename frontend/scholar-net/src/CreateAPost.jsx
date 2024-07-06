@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./CreateAPost.css";
-import { useParams } from "react-router-dom";
+
 
 
 
@@ -9,9 +9,6 @@ function CreateAPost({ onClose, userID, profileID }) {
   const [text, setText] = useState("");
   const [location, setLocation] = useState("");
   const [field_interest, setFieldInterest] = useState("");
-
-
-
 
 
   const handleChange = (e) => {

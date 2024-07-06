@@ -37,6 +37,7 @@ model Post {
   user               User    @relation(fields: [userID], references: [uid])
   userID             String
   title              String
+  postUser           String?
   content            String
   location           String?
   field_interest     String

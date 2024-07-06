@@ -7,7 +7,13 @@ function FeedList(props){
 
     async function getPosts() {
         try {
-          const response = await fetch(`http://localhost:3000/posts`);
+          const response = await fetch(`http://localhost:3000/posts`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+          );
           if (!response.ok) {
             throw new Error('Failed to fetch posts');
           }
@@ -31,6 +37,7 @@ function FeedList(props){
                 userID={props.userID}
                 profileID={props.profileID}
                 title={post.title}
+                postUser={post.postUser}
                 content={post.content}
                 location={post.location}
                 field_interest={post.field_interest}

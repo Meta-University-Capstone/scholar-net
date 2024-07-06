@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import env from 'dotenv';
+import env, { parse } from 'dotenv';
 
 
 
@@ -120,11 +120,16 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
     const userID = req.params.uid;
     const profileID = req.params.id;
     const { title, content, location, field_interest } = req.body;
+    const postProfile = await prisma.profile.findUnique({
+        where: {id : parseInt(profileID)}
+      })
+    const postUser = await postProfile.name
 
     try {
       const newPost = await prisma.post.create({
         data: {
           title,
+          postUser,
           content,
           location,
           field_interest,
@@ -138,7 +143,7 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
           profile: true,
         },
       });
-
+      console.log(postUser)
       res.status(201).json(newPost);
     } catch (error) {
       console.error('Error creating post:', error);
@@ -148,7 +153,7 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
 
   app.get('/posts', async (req, res) => {
     try{
-      const posts = await prisma.posts.findMany();
+      const posts = await prisma.post.findMany();
       res.json(posts);
     }catch(err){
       res.status(500).json({err: 'Internal Server Error'})
