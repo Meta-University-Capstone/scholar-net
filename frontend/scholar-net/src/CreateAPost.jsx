@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import "./CreateAPost.css";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
-function CreateAPost({ onClose }) {
+
+
+function CreateAPost({ onClose, userID, profileID }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [location, setLocation] = useState("");
-  const [fieldInterest, setFieldInterest] = useState("");
-  const {uid} = useParams();
+  const [field_interest, setFieldInterest] = useState("");
+
+
+
 
 
   const handleChange = (e) => {
@@ -17,7 +21,7 @@ function CreateAPost({ onClose }) {
         setText(e.target.value);
     } else if (e.target.name === "location") {
         setLocation(e.target.value);
-    } else if (e.target.name === "fieldInterest") {
+    } else if (e.target.name === "field_interest") {
         setFieldInterest(e.target.value);
     }
 };
@@ -25,13 +29,13 @@ function CreateAPost({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/profile/${uid}posts`, {
+      const response = await fetch(`http://localhost:3000/profile/${userID}/${profileID}/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            userID: uid,
+            userID,
             title,
             location,
             field_interest,
@@ -79,8 +83,8 @@ function CreateAPost({ onClose }) {
             Field of Interest:{" "}
             <input
               type="text"
-              name="fieldInterest"
-              value={fieldInterest}
+              name="field_interest"
+              value={field_interest}
               onChange={handleChange}
             />
           </label>

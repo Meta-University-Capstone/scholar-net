@@ -15,6 +15,7 @@ function Home (){
     const [hasProfile, setHasProfile] = useState(false);
     const [userID, setUserID] = useState(null);
     const [showPostModal, setShowPostModal] = useState(false);
+    const [profileID, setProfileID] = useState(null);
 
 
 
@@ -42,6 +43,7 @@ function Home (){
                 const profiles = await response.json();
                 if (profiles.length > 0) {
                   setHasProfile(true);
+                  setProfileID(profiles[0].id);
                 }
               }
             }
@@ -73,7 +75,7 @@ function Home (){
         <div className='create-profile'>
           <p>Create a Profile to get started!</p>
           <button onClick={toggleProfileForm}>Create a Profile</button>
-          {showProfileForm && <CreateAProfile userID={userID}/>}
+          {showProfileForm && <CreateAProfile userID={userID} />}
         </div>
         )}
         <div className='connections-sidebar-home'>
@@ -82,7 +84,7 @@ function Home (){
         </div>
         <div className="user-posts">
             <button onClick={togglePostModal}>Create a Post</button>
-            {showPostModal && <CreateAPost userID={userID} onClose={togglePostModal} />}
+            {showPostModal && <CreateAPost userID={userID} profileID={profileID} onClose={togglePostModal} />}
         </div>
         <footer className='footer'>
             <p>©️ Helping The Future of Education</p>

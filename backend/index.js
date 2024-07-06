@@ -116,20 +116,26 @@ app.put('/profile/:uid/:id', checkUserID, async (req, res) => {
     }
 });
 
-app.post('/profile/:uid/posts', checkUserID, async (req, res) => {
-    const { uid } = req.params;
+app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
+    const userID = req.params.uid;
+    const profileID = req.params.id;
     const { title, content, location, field_interest } = req.body;
 
     try {
       const newPost = await prisma.post.create({
         data: {
-          userID: uid,
           title,
           content,
           location,
           field_interest,
           likeCount: 0,
           created_at: new Date().toISOString(),
+          user: {connect: { uid: userID }},
+          profile: {connect: { id: parseInt(profileID) }},
+        },
+        include: {
+          user: true,
+          profile: true,
         },
       });
 
@@ -148,6 +154,9 @@ app.post('/profile/:uid/posts', checkUserID, async (req, res) => {
       res.status(500).json({err: 'Internal Server Error'})
     }
   });
+
+
+
 
 
 app.listen(port, () => {
