@@ -4,11 +4,12 @@ import "./CreateAPost.css";
 
 
 
-function CreateAPost({ onClose, userID, profileID }) {
+function CreateAPost({ onClose, userID, profileID, refreshPosts }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [location, setLocation] = useState("");
   const [field_interest, setFieldInterest] = useState("");
+  const [posts, setPosts] = useState([])
 
 
   const handleChange = (e) => {
@@ -45,6 +46,10 @@ function CreateAPost({ onClose, userID, profileID }) {
         setLocation("");
         setFieldInterest("");
         onClose();
+        const data = await response.json();
+        setPosts([...posts, data])
+        refreshPosts();
+
       }
     } catch (error) {
       console.error('Error creating post:', error);

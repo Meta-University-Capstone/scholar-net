@@ -18,6 +18,7 @@ function Home (){
     const [userID, setUserID] = useState(null);
     const [showPostModal, setShowPostModal] = useState(false);
     const [profileID, setProfileID] = useState(null);
+    const [posts, setPosts] = useState([]);
 
     async function getPosts() {
         try {
@@ -84,6 +85,10 @@ function Home (){
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        getPosts();
+    }, []);
+
 
 
 
@@ -102,7 +107,7 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <FeedList refreshPosts={()=>getPosts()} />
+        <FeedList refreshPosts={()=>getPosts()} setPosts={posts} getPosts={getPosts}/>
 
         {!hasProfile && (
         <div className='create-profile'>
@@ -117,7 +122,7 @@ function Home (){
         </div>
         <div className="user-posts">
             <button onClick={togglePostModal}>Create a Post</button>
-            {showPostModal && <CreateAPost userID={userID} profileID={profileID} onClose={togglePostModal} />}
+            {showPostModal && <CreateAPost userID={userID} profileID={profileID} onClose={togglePostModal} refreshPosts={()=>getPosts()}/>}
         </div>
         <footer className='footer'>
             <p>©️ Helping The Future of Education</p>

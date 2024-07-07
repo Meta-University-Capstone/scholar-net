@@ -3,30 +3,10 @@ import './FeedList.css'
 import { useState, useEffect } from 'react'
 
 function FeedList(props){
-    const [posts, setPosts] = useState([])
 
-    async function getPosts() {
-        try {
-          const response = await fetch(`http://localhost:3000/posts`,{
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-          );
-          if (!response.ok) {
-            throw new Error('Failed to fetch posts');
-          }
-          const data = await response.json();
-          setPosts(data);
-        } catch (error) {
-          console.error('Error fetching posts:', error);
-        }
-      }
-
-    useEffect(() => {
-        getPosts()
-    }, [])
+    useEffect(()=>{
+        props.getPosts()
+    },[])
 
 
     function renderPosts(post){
@@ -51,7 +31,7 @@ function FeedList(props){
     return(
         <>
             <div className="feed">
-                {posts.map(renderPosts)}
+                {props.setPosts.map(renderPosts)}
             </div>
         </>
     )
