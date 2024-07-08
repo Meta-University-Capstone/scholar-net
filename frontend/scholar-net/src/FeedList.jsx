@@ -75,9 +75,9 @@ function FeedList(props){
       setEditedPost({...editedPost,[name]: value,});
     };
 
-    useEffect(()=>{
-        props.getPosts()
-    },[])
+    // useEffect(()=>{
+    //     props.getPosts()
+    // },[])
 
 
 

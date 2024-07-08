@@ -3,11 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './ProfilePage.css'
 import Profile from "./Profile";
+import FeedList from "./FeedList";
 
 
 function ProfilePage(){
 const[profile, setProfile] = useState({})
 const [editing, setEditing] = useState(false);
+const [userPosts, setUserPosts] = useState([]);
 
 
 const {userID} = useParams();
@@ -37,7 +39,6 @@ const {userID} = useParams();
   };}
 
 
-
     useEffect(() => {
         const fetchProfile = async () => {
         try {
@@ -58,12 +59,32 @@ const {userID} = useParams();
             console.error('Error fetching profile:', error);
         }
         };
-        fetchProfile();
-    }, [userID]);
+        const fetchUserPosts = async () => {
+            try {
+              const postsResponse = await fetch(`http://localhost:3000/posts/user/${userID}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
 
-    if (!profile) {
-        return <p>Loading...</p>;
-    }
+              if (postsResponse.ok) {
+                const posts = await postsResponse.json();
+                setUserPosts(posts);
+              }
+            } catch (error) {
+              console.error('Error fetching user posts:', error);
+            }
+          };
+
+          fetchProfile();
+          fetchUserPosts();
+        }, [userID]);
+
+        if (!profile) {
+          return <p>Loading...</p>;
+        }
+
 
     return(
         <>
@@ -106,6 +127,10 @@ const {userID} = useParams();
         </div>
         <div className="users-posts">
             <h3>Your Posts</h3>
+            {/* <FeedList
+            posts={userPosts} // Pass userPosts as a prop to FeedList
+            refreshPosts={() => fetchUserPosts()} // Function to refresh posts after editing or deleting
+          /> */}
 
 
         </div>

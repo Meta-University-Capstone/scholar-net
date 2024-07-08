@@ -212,6 +212,27 @@ app.delete('/posts/:id', async (req, res) => {
     }
 });
 
+app.post('/posts/:id/like', async (req, res) => {
+    const postId = parseInt(req.params.id);
+    const { increment } = req.body;
+
+    try {
+        const post = await prisma.post.update({
+            where: { id: postId },
+            data: {
+                likeCount: {
+                    increment: increment
+                }
+            }
+        });
+        res.json(post);
+    } catch (error) {
+        console.error('Error updating like count:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 
 
 

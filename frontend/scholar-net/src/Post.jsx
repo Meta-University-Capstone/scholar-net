@@ -2,22 +2,31 @@ import React from "react";
 import { useState } from "react";
 
 
-
 function Post(props){
-    const [likeCount, setLikeCount] = useState(0);
-    const [unLike, setUnLike] = useState("Like");
+    const [likeCount, setLikeCount] = useState(props.likeCount);
+    const [unLike, setUnLike] = useState(props.likedByCurrentUser ? "Unlike" : "Like");
 
 
-
-    const handleLikeClick = () => {
-        if(unLike === "Like"){
-          setLikeCount(likeCount + 1);
-          setUnLike("Unlike")
-        } else{
-          setLikeCount(likeCount - 1);
-          setUnLike("Like")
+    const handleLikeClick = async () => {
+        const increment = unLike === "Like" ? 1 : -1;
+        try {
+            const response = await fetch(`http://localhost:3000/posts/${props.id}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ increment })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update like count');
+            }
+            const updatedPost = await response.json();
+            setLikeCount(updatedPost.likeCount);
+            setUnLike(unLike === "Like" ? "Unlike" : "Like");
+        } catch (error) {
+            console.error('Error updating like count:', error);
         }
-      };
+    };
 
       const handlePostEditClick = () => {
         if (props.onEdit) {
@@ -34,10 +43,6 @@ function Post(props){
       const formatDate = (dateString) => {
         return new Date(dateString).toLocaleString();
     };
-
-
-
-
 
     return(
         <div className="post">
