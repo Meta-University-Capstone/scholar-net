@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./CreateAPost.css";
 
 
-
-
 function CreateAPost({ onClose, userID, profileID, refreshPosts }) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -55,6 +53,7 @@ function CreateAPost({ onClose, userID, profileID, refreshPosts }) {
       console.error('Error creating post:', error);
     }
   };
+
 
   return (
     <div className="modal-overlay open">

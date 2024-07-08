@@ -76,20 +76,17 @@ function Home (){
             if (user) {
                 checkUserProfile();
             } else {
-                setUserID(null);
                 setHasProfile(false);
             }
         });
 
-
         return () => unsubscribe();
     }, []);
+
 
     useEffect(() => {
         getPosts();
     }, []);
-
-
 
 
 
@@ -107,7 +104,7 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <FeedList refreshPosts={()=>getPosts()} setPosts={posts} getPosts={getPosts}/>
+        <FeedList userID={userID} refreshPosts={()=>getPosts()}  posts={posts} setPosts={posts} getPosts={getPosts}/>
 
         {!hasProfile && (
         <div className='create-profile'>

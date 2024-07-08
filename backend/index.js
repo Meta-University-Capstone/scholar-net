@@ -159,6 +159,61 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
     }
   });
 
+  app.put('/posts/:id', async (req, res) => {
+    const postId = parseInt(req.params.id);
+    const { title, content, location, field_interest } = req.body;
+
+    try {
+        const post = await prisma.post.findUnique({
+            where: { id: postId },
+            include: { user: true }
+        });
+
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        const updatedPost = await prisma.post.update({
+            where: { id: postId },
+            data: {
+                title,
+                content,
+                location,
+                field_interest,
+                updated_at: new Date().toISOString(),
+            },
+        });
+        res.status(200).json(updatedPost);
+    } catch (error) {
+        console.error('Error updating post:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.delete('/posts/:id', async (req, res) => {
+    const postId = parseInt(req.params.id);
+
+    try {
+        const post = await prisma.post.findUnique({
+            where: { id: postId },
+            include: { user: true }
+        });
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        await prisma.post.delete({
+            where: { id: postId },
+        });
+        res.status(204).send();
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
 
 
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import './ProfilePage.css'
 import Profile from "./Profile";
 
+
 function ProfilePage(){
 const[profile, setProfile] = useState({})
 const [editing, setEditing] = useState(false);
@@ -34,7 +35,6 @@ const {userID} = useParams();
         setProfile(updatedProfile);
         setEditing(false);
   };}
-
 
 
 
@@ -106,6 +106,8 @@ const {userID} = useParams();
         </div>
         <div className="users-posts">
             <h3>Your Posts</h3>
+
+
         </div>
         </>
 
