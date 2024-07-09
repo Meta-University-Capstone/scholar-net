@@ -89,9 +89,6 @@ function Home (){
     }, []);
 
 
-
-
-
     return(
         <>
         <h1>Scholar-Net</h1>

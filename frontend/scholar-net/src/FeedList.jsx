@@ -1,6 +1,5 @@
 import Post from './Post'
 import './FeedList.css'
-import { useEffect } from 'react'
 import { useState } from 'react'
 
 function FeedList(props){
@@ -74,11 +73,6 @@ function FeedList(props){
       const { name, value } = e.target;
       setEditedPost({...editedPost,[name]: value,});
     };
-
-    // useEffect(()=>{
-    //     props.getPosts()
-    // },[])
-
 
 
     return(

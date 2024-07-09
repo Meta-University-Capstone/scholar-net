@@ -233,8 +233,28 @@ app.post('/posts/:id/like', async (req, res) => {
 });
 
 
+app.get('/search/:query', async (req, res) => {
+    const { query } = req.params;
 
+    try {
+      const posts = await prisma.post.findMany({
+        where: {
+          OR: [
+            { title: { contains: query, mode: 'insensitive' } },
+            { content: { contains: query, mode: 'insensitive' } },
+            { location: { contains: query, mode: 'insensitive' } },
+            { field_interest: { contains: query, mode: 'insensitive' } },
+            { postUser: { contains: query, mode: 'insensitive' } },
+          ],
+        },
+      });
 
+      res.json(posts);
+    } catch (error) {
+      console.error('Error searching posts:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 
 
