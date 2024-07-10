@@ -159,6 +159,21 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
     }
   });
 
+  app.get('/posts/:uid', async (req, res) => {
+    const userID = req.params.uid;
+    try {
+      const userPosts = await prisma.post.findMany({
+        where: {
+          userID: userID,
+        },
+      });
+      res.json(userPosts);
+    } catch (err) {
+      console.error('Error fetching user posts:', err);
+      res.status(500).json({ err: 'Internal Server Error' });
+    }
+  });
+
   app.put('/posts/:id', async (req, res) => {
     const postId = parseInt(req.params.id);
     const { title, content, location, field_interest } = req.body;

@@ -62,6 +62,10 @@ function Search(){
         getPosts();
     }, []);
 
+    const formatDate = (dateString) => {
+        return new Date(dateString).toLocaleString();
+    };
+
 
 
     return(
@@ -87,6 +91,7 @@ function Search(){
             <p>Location: {post.location}</p>
             <p>Field of Interest: {post.field_interest}</p>
             <p>Like Count: {post.likeCount}</p>
+            <p>Created: {formatDate(post.created_at)}</p>
             <p>Posted by: {post.postUser}</p>
           </div>
         ))}
