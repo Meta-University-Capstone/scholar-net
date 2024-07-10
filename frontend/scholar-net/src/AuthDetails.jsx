@@ -3,9 +3,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { auth } from './firebase'
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { Link } from "react-router-dom";
+
 
 const AuthDetails = () => {
     const [authUser, setAuthUser] = useState(null)
+
 
     useEffect(() =>{
         const listen = onAuthStateChanged(auth, (user) => {
@@ -28,7 +31,9 @@ const AuthDetails = () => {
     }
 
     return (
-        <button onClick={userSignOut} >Sign Out</button>
+        <Link to="/login" onClick={userSignOut}>
+            <button>Sign Out</button>
+        </Link>
     )
 }
 
