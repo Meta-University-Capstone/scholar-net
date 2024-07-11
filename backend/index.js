@@ -303,6 +303,81 @@ app.get('/search/:query', async (req, res) => {
     }
   });
 
+  app.post("/other_user/:profileID", async (req, res) => {
+    const { profileID } = req.params;
+    const { currentUserID } = req.body;
+    try {
+      const newConnection = await prisma.connections.create({
+        data: {
+          userID: currentUserID,
+          profileID: parseInt(profileID),
+        },
+      });
+      res.status(201).json(newConnection);
+    } catch (error) {
+      console.error("Error adding connection:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+
+  app.delete("/other_user/:profileID", async (req, res) => {
+    const { profileID } = req.params;
+    const { currentUserID } = req.body;
+    try {
+      await prisma.connections.deleteMany({
+        where: {
+          userID: currentUserID,
+          profileID: parseInt(profileID),
+        },
+      });
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error removing connection:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+
+  app.get("/other_user/:profileID", async (req, res) => {
+    const { profileID } = req.params;
+    const { currentUserID } = req.query;
+    try {
+      const connection = await prisma.connections.findFirst({
+        where: {
+          userID: currentUserID,
+          profileID: parseInt(profileID),
+        },
+      });
+      res.json(!!connection);
+    } catch (error) {
+      console.error("Error checking connection status:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+
+app.get('/connections/:currentUserID', async (req, res) => {
+    const { currentUserID } = req.params;
+    try {
+      const connections = await prisma.connections.findMany({
+        where: {
+          userID: currentUserID,
+        },
+        include: {
+          profile: true,
+        },
+      });
+
+      res.status(200).json(connections);
+    } catch (error) {
+      console.error('Error fetching connections:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+
+
 
 
 

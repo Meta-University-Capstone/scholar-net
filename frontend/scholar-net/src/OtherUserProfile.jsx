@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Profile from "./Profile";
 import Post from "./Post";
+import { auth } from "./firebase";
+
 
 function OtherUserProfile() {
   const [profile, setProfile] = useState({});
   const [userPosts, setUserPosts] = useState([]);
-
+  const [isConnected, setIsConnected] = useState(false);
   const { profileID } = useParams();
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -43,10 +46,65 @@ function OtherUserProfile() {
         console.error("Error fetching user posts:", error);
       }
     };
+    const fetchConnectionStatus = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/other_user/${profileID}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.ok) {
+            const isConnected = await response.json();
+            setIsConnected(isConnected);
+          }
+        } catch (error) {
+          console.error("Error fetching connection status:", error);
+        }
+      };
 
-    fetchProfile();
-    fetchUserPosts();
-  }, [profileID]);
+      fetchProfile();
+      fetchUserPosts();
+      fetchConnectionStatus();
+    }, [profileID]);
+
+    const handleAddRemoveConnection = async () => {
+        const currentUserID = auth.currentUser.uid
+
+        if (!currentUserID) {
+          console.error("Current user ID is not available.");
+          return;
+        }
+
+        try {
+          let response;
+          if (isConnected) {
+            response = await fetch(`http://localhost:3000/other_user/${profileID}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ currentUserID }),
+            });
+          } else {
+            response = await fetch(`http://localhost:3000/other_user/${profileID}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ currentUserID }),
+            });
+          }
+          if (response.ok) {
+            setIsConnected(!isConnected);
+          } else {
+            console.error("Failed to update connection status");
+          }
+        } catch (error) {
+          console.error("Error updating connection:", error);
+        }
+      };
+
 
   return (
     <>
@@ -55,6 +113,11 @@ function OtherUserProfile() {
       </Link>
       <div className="profile-info">
         <h3>{profile.name}'s Profile</h3>
+        <div className="add-remove-connection">
+        <button onClick={handleAddRemoveConnection}>
+          {isConnected ? "Remove from Connections" : "Add to Connections"}
+        </button>
+      </div>
         <Profile
         name={profile.name}
         role={profile.role}

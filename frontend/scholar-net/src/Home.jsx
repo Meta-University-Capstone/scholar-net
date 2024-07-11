@@ -113,7 +113,7 @@ function Home (){
 
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
-            <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar}/>
+            <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar} userID={userID}/>
         </div>
         <div className="user-posts">
             <button onClick={togglePostModal}>Create a Post</button>

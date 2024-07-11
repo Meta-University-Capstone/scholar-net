@@ -8,12 +8,10 @@ function ConnectionsSidebar(props) {
           <ul>
             <li>Connections</li>
             <div className="connections-list">
-                <ConnectionsList/>
+                <ConnectionsList userID={props.userID}/>
             </div>
           </ul>
-
           <button onClick={props.toggle}>Close</button>
-
         </nav>
       );
 
