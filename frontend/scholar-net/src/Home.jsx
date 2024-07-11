@@ -101,8 +101,6 @@ function Home (){
                 <button  className="profile-btn">Your Profile</button>
             </Link>
         </div>
-        <FeedList userID={userID} refreshPosts={()=>getPosts()}  posts={posts} setPosts={posts} getPosts={getPosts}/>
-
         {!hasProfile && (
         <div className='create-profile'>
           <p>Create a Profile to get started!</p>
@@ -110,6 +108,9 @@ function Home (){
           {showProfileForm && <CreateAProfile userID={userID} />}
         </div>
         )}
+
+        <FeedList userID={userID} refreshPosts={()=>getPosts()}  posts={posts} setPosts={posts} getPosts={getPosts}/>
+
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
             <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar}/>

@@ -271,6 +271,38 @@ app.get('/search/:query', async (req, res) => {
     }
   });
 
+  app.get('/other_user/:profileID', async (req, res) => {
+    const { profileID } = req.params;
+    try {
+      const profile = await prisma.profile.findUnique({
+        where: { id: parseInt(profileID) }
+      });
+      if (profile) {
+        res.json(profile);
+      } else {
+        res.status(404).json({ message: 'Profile not found' });
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+
+  app.get('/profile/:profileID/posts', async (req, res) => {
+    const { profileID } = req.params;
+    try {
+      const posts = await prisma.post.findMany({
+        where: { profileID: parseInt(profileID) },
+        orderBy: { created_at: 'desc' },
+      });
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
 
 
 

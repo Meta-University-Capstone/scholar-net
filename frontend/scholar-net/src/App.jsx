@@ -4,6 +4,7 @@ import Register from './Register'
 import Home from './Home'
 import Search from './Search'
 import ProfilePage from './ProfilePage'
+import OtherUserProfile from './OtherUserProfile'
 
 
 function App() {
@@ -11,11 +12,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path='/' element={user ? <Home /> : <Register />} /> */}
         <Route path ='/' element={<Home/>}/>
         <Route path="/login" element={<Login  />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile/:userID" element={<ProfilePage />}/>
+        <Route path='/other_user/:profileID' element={<OtherUserProfile />}/>
         <Route path='/search' element={<Search />} />
       </Routes>
     </Router>

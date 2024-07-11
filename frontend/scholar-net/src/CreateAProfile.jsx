@@ -38,7 +38,6 @@ function CreateAProfile({userID}) {
       <div className="modal-content">
         <h1>Create a new profile</h1>
         <form className='form' onSubmit={(e) => {
-          e.preventDefault();
           makeProfile();
         }}>
           <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />

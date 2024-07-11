@@ -1,11 +1,14 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 function Post(props){
     const [likeCount, setLikeCount] = useState(props.likeCount);
     const [unLike, setUnLike] = useState(props.likedByCurrentUser ? "Unlike" : "Like");
 
+    const { userID } = useParams();
 
     const handleLikeClick = async () => {
         const increment = unLike === "Like" ? 1 : -1;
@@ -46,7 +49,9 @@ function Post(props){
 
     return(
         <div className="post">
-             <p>Name: {props.postUser}</p>
+            <Link to={`/other_user/${props.profileID}`}>
+                <p>Name: {props.postUser}</p>
+            </Link>
             <h3>{props.title}</h3>
             <p>{props.location}</p>
             <p>{props.field_interest}</p>
