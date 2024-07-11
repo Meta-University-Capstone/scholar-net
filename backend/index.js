@@ -339,7 +339,7 @@ app.get('/search/:query', async (req, res) => {
   });
 
 
-  app.get("/other_user/:profileID", async (req, res) => {
+  app.get("/other_user/:profileID/is_connected", async (req, res) => {
     const { profileID } = req.params;
     const { currentUserID } = req.query;
     try {

@@ -46,9 +46,10 @@ function OtherUserProfile() {
         console.error("Error fetching user posts:", error);
       }
     };
+
     const fetchConnectionStatus = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/other_user/${profileID}`, {
+          const response = await fetch(`http://localhost:3000/other_user/${profileID}/is_connected`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -115,7 +116,7 @@ function OtherUserProfile() {
         <h3>{profile.name}'s Profile</h3>
         <div className="add-remove-connection">
         <button onClick={handleAddRemoveConnection}>
-          {isConnected ? "Remove from Connections" : "Add to Connections"}
+          {isConnected ?  "Remove from Connections" : "Add to Connections"}
         </button>
       </div>
         <Profile
