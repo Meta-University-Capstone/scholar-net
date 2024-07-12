@@ -6,6 +6,7 @@ import { auth } from './firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
+import './Register.css'
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -53,12 +54,7 @@ function Register() {
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <img src='/public/applogo.png' className="logo"/>
       </div>
       <div className="sign-in-container">
         <form onSubmit={register}>

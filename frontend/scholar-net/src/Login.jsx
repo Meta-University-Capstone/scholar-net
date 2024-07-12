@@ -1,10 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './Login.css'
 import { auth } from './firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import AuthDetails from './AuthDetails';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 
@@ -28,27 +25,23 @@ function Login() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='login-body'>
+          <img src='/public/applogo.png' className="logo"/>
       </div>
       <div className="sign-in-container">
         <form onSubmit={signIn}>
-            <h1>Log In</h1>
+            <h1>LOGIN</h1>
             <input type='email' placeholder='Enter your email' value={email} onChange={(e)=> setEmail(e.target.value)} ></input>
             <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
-            <button type='submit'>Log In</button>
+            <button type='submit'>LOGIN</button>
         </form>
       </div>
+      <div className='login-footer'>
       <p>Don't have an account?</p>
       <Link to={`/register`}>
         <p>Register</p>
       </Link>
-      <AuthDetails/>
+      </div>
     </>
   )
 }
