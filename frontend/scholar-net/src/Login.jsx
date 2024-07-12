@@ -26,7 +26,9 @@ function Login() {
   return (
     <>
       <div className='login-body'>
+        <div className='logopic'>
           <img src='/public/applogo.png' className="logo"/>
+        </div>
       </div>
       <div className="sign-in-container">
         <form onSubmit={signIn}>
