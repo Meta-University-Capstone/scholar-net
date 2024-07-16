@@ -1,9 +1,15 @@
 import Post from './Post'
 import './FeedList.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
+import { auth } from "./firebase";
+
 
 function FeedList(props){
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const[profile, setProfile] = useState({})
+    const [userPosts, setUserPosts] = useState([]);
+    const [sortedPosts, setSortedPosts] = useState([]);
     const [editedPost, setEditedPost] = useState({
       post: null,
       title: "",
@@ -11,6 +17,58 @@ function FeedList(props){
       field_interest: "",
       content: "",
     });
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+          try {
+            console.log("boom")
+            const response = await fetch(`http://localhost:3000/profile/${props.userID}`,{
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            if (response.ok) {
+              const profiles = await response.json();
+              if (profiles.length > 0) {
+                setProfile(profiles[0]);
+              }
+            }
+           }catch (error) {
+            console.error('Error fetching profile:', error);
+          }
+        };
+        fetchProfile();
+        fetchUserPosts();
+            const sorted = sortPostsByScore(props.posts, profile);
+            console.log(sorted)
+            setSortedPosts(sorted);
+    }, []);
+
+    console.log(props.profileID)
+    console.log(props.userID)
+
+    const fetchUserPosts = async () => {
+        try {
+          const postsResponse = await fetch(`http://localhost:3000/posts/${props.userID}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (postsResponse.ok) {
+            const posts = await postsResponse.json();
+            setUserPosts(posts);
+          }
+        } catch (error) {
+          console.error('Error fetching user posts:', error);
+        }
+    };
+
+
+
+
 
     const handleEditPost = (post) => {
       setEditedPost({
@@ -75,9 +133,84 @@ function FeedList(props){
     };
 
 
+
+      const calculateScore = (profile, post) => {
+        console.log(profile)
+        console.log(post.content)
+
+        try{
+            let score = 0;
+
+        if (profile.name === post.postUser) {
+          score += 10;
+        }
+
+        const bioSimilarity = calculateStringSimilarity(profile.bio, post.content);
+        score += bioSimilarity * 3;
+
+        const gpa = ['3.0', '3.5', '3.8', '4.0'];
+        gpa.forEach(gpa => {
+          if (post.content.toLowerCase().includes(gpa.toLowerCase())) {
+            score += 2;
+          }
+        });
+
+        if (profile.connections.includes(post.userID)) {
+          score += 15;
+        }
+
+        console.log("calculated score", score)
+        return score;
+      }catch{
+        return 0
+      };}
+
+
+  const calculateStringSimilarity = (str1, str2) => {
+    if(str2===undefined || str1===undefined){
+        console.log("a string is undefined")
+        return 0;
+    }
+    const maxLength = Math.max(str1.length, str2.length);
+    const distance = levenshteinDistance(str1, str2);
+    const similarity = 1 - distance / maxLength;
+    return similarity;
+  };
+
+  const levenshteinDistance = (a, b) => {
+    const matrix = Array.from(Array(a.length + 1), (_, i) => Array(b.length + 1).fill(i));
+    for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+    for (let i = 0; i <= b.length; i++) matrix[0][i] = i;
+    for (let i = 1; i <= a.length; i++) {
+      for (let j = 1; j <= b.length; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + cost
+        );
+      }
+    }
+    return matrix[a.length][b.length];
+  };
+
+
+  const sortPostsByScore = (posts, profile) => {
+    if (!profile) {
+        return posts
+      }
+    posts.sort((a, b) => {
+      const scoreA = calculateScore(profile, a);
+      const scoreB = calculateScore(profile, b);
+      return scoreB - scoreA;
+    });
+    return posts;
+  };
+
+
     return(
             <div className="feed">
-              {props.setPosts.map((post) => (
+              {sortedPosts.map((post) => (
                 <Post
                   key={post.id}
                   id={post.id}
@@ -92,6 +225,7 @@ function FeedList(props){
                   likeCount={post.likeCount}
                   created_at={post.created_at}
                   updated_at={post.updated_at}
+                  profile={post.profile}
                   onEdit={() => handleEditPost(post)}
                   onDelete={() => handleDeletePost(post.id)}
                 />

@@ -152,7 +152,11 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
 
   app.get('/posts', async (req, res) => {
     try{
-      const posts = await prisma.post.findMany();
+        const posts = await prisma.post.findMany({
+            include: {
+              profile: true,
+            }
+          });
       res.json(posts);
     }catch(err){
       res.status(500).json({err: 'Internal Server Error'})

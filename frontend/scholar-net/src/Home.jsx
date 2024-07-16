@@ -109,7 +109,7 @@ function Home (){
         </div>
         )}
 
-        <FeedList userID={userID} refreshPosts={()=>getPosts()}  posts={posts} setPosts={posts} getPosts={getPosts}/>
+        <FeedList userID={userID} profileID={profileID} refreshPosts={()=>getPosts()}  posts={posts} setPosts={posts} getPosts={getPosts}/>
 
         <div className='connections-sidebar-home'>
             <button onClick={toggleSidebar}>View Connections</button>
