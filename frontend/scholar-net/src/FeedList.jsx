@@ -1,9 +1,6 @@
 import Post from './Post'
 import './FeedList.css'
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
-import { auth } from "./firebase";
-
 
 function FeedList(props){
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -21,11 +18,10 @@ function FeedList(props){
     useEffect(() => {
         const fetchProfile = async () => {
           try {
-            console.log("boom")
-            const response = await fetch(`http://localhost:3000/profile/${props.userID}`,{
-              method: "GET",
+            const response = await fetch(`http://localhost:3000/profile/${props.userID}`, {
+              method: 'GET',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
             });
             if (response.ok) {
@@ -33,42 +29,50 @@ function FeedList(props){
               if (profiles.length > 0) {
                 setProfile(profiles[0]);
               }
+            } else {
+              throw new Error('Failed to fetch profile');
             }
-           }catch (error) {
+          } catch (error) {
             console.error('Error fetching profile:', error);
           }
         };
-        fetchProfile();
-        fetchUserPosts();
-            const sorted = sortPostsByScore(props.posts, profile);
-            console.log(sorted)
-            setSortedPosts(sorted);
-    }, []);
 
-    console.log(props.profileID)
-    console.log(props.userID)
+        const fetchUserPosts = async () => {
+          try {
+            const postsResponse = await fetch(`http://localhost:3000/posts/${props.userID}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
 
-    const fetchUserPosts = async () => {
-        try {
-          const postsResponse = await fetch(`http://localhost:3000/posts/${props.userID}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-
-          if (postsResponse.ok) {
-            const posts = await postsResponse.json();
-            setUserPosts(posts);
+            if (postsResponse.ok) {
+              const posts = await postsResponse.json();
+              setUserPosts(posts);
+            } else {
+              throw new Error('Failed to fetch user posts');
+            }
+          } catch (error) {
+            console.error('Error fetching user posts:', error);
           }
-        } catch (error) {
-          console.error('Error fetching user posts:', error);
-        }
-    };
+        };
+
+        const fetchData = async () => {
+          await fetchProfile();
+          await fetchUserPosts();
+        };
+
+        fetchData();
+    }, [props.userID]);
 
 
-
-
+    useEffect(() => {
+        const sortAndSetPosts = () => {
+            const sorted = sortPostsByScore(props.posts, profile);
+            setSortedPosts(sorted);
+        };
+        sortAndSetPosts();
+    }, [props.posts, profile]);
 
     const handleEditPost = (post) => {
       setEditedPost({
@@ -135,9 +139,6 @@ function FeedList(props){
 
 
       const calculateScore = (profile, post) => {
-        console.log(profile)
-        console.log(post.content)
-
         try{
             let score = 0;
 
@@ -146,29 +147,27 @@ function FeedList(props){
         }
 
         const bioSimilarity = calculateStringSimilarity(profile.bio, post.content);
-        score += bioSimilarity * 3;
+        score += bioSimilarity * 5;
 
         const gpa = ['3.0', '3.5', '3.8', '4.0'];
         gpa.forEach(gpa => {
           if (post.content.toLowerCase().includes(gpa.toLowerCase())) {
-            score += 2;
+            score += 4;
           }
         });
 
-        if (profile.connections.includes(post.userID)) {
+        if (profile.connections && profile.connections.includes(post.userID)) {
           score += 15;
         }
-
-        console.log("calculated score", score)
         return score;
-      }catch{
+
+      }catch(error){
         return 0
       };}
 
 
   const calculateStringSimilarity = (str1, str2) => {
     if(str2===undefined || str1===undefined){
-        console.log("a string is undefined")
         return 0;
     }
     const maxLength = Math.max(str1.length, str2.length);
@@ -196,7 +195,7 @@ function FeedList(props){
 
 
   const sortPostsByScore = (posts, profile) => {
-    if (!profile) {
+    if (!profile || !posts) {
         return posts
       }
     posts.sort((a, b) => {
