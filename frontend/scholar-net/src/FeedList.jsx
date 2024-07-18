@@ -147,18 +147,13 @@ function FeedList(props){
         }
 
         const bioSimilarity = calculateStringSimilarity(profile.bio, post.content);
-        score += bioSimilarity * 5;
+        score += bioSimilarity * 15;
 
-        const gpa = ['3.0', '3.5', '3.8', '4.0'];
-        gpa.forEach(gpa => {
-          if (post.content.toLowerCase().includes(gpa.toLowerCase())) {
-            score += 4;
-          }
-        });
 
         if (profile.connections && profile.connections.includes(post.userID)) {
-          score += 15;
+          score += 5;
         }
+
         return score;
 
       }catch(error){
