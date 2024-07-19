@@ -380,6 +380,51 @@ app.get('/connections/:currentUserID', async (req, res) => {
     }
   });
 
+  app.post('/additional_info/:uid/:profileID', checkUserID, async (req, res) => {
+    const { uid, profileID } = req.params;
+    const { age, gpa, personal_statement, interests } = req.body;
+
+    try {
+        const profile = await prisma.profile.findUnique({
+            where: { id: parseInt(profileID) },
+        });
+        const additionalInfo = await prisma.additionalInfo.create({
+            data: {
+                userID: uid,
+                profileID: parseInt(profileID),
+                age,
+                gpa: parseFloat(gpa),
+                personal_statement,
+                interests,
+            },
+        });
+
+        res.status(201).json(additionalInfo);
+    } catch (error) {
+        console.error('Error creating additional info:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/profile/additional_info/:userID/:profileID', async (req, res) => {
+    const { userID, profileID } = req.params;
+
+    try {
+      const additionalInfo = await prisma.additionalInfo.findMany({
+        where: {
+          userID: userID,
+          profileID: parseInt(profileID),
+        },
+      });
+
+      res.status(200).json(additionalInfo);
+    } catch (error) {
+      console.error('Error fetching additional info:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+
 
 
 

@@ -65,7 +65,7 @@ model AdditionalInfo {
   profile            Profile @relation(fields: [profileID], references: [id])
   profileID          Int
   age                Int
-  gpa                Int
+  gpa                Float
   personal_statement String
   interests          String
 }
