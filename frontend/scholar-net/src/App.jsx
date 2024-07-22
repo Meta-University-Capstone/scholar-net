@@ -5,6 +5,7 @@ import Home from './Home'
 import Search from './Search'
 import ProfilePage from './ProfilePage'
 import OtherUserProfile from './OtherUserProfile'
+import CompareChart from './CompareChart'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/profile/:userID" element={<ProfilePage />}/>
         <Route path='/other_user/:profileID' element={<OtherUserProfile />}/>
         <Route path='/search' element={<Search />} />
+        <Route path='/compare' element={<CompareChart/>}/>
       </Routes>
     </Router>
   )

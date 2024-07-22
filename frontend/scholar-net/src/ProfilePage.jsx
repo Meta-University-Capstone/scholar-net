@@ -235,9 +235,17 @@ const {userID} = useParams();
               onClose={toggleInfoModal}
               userID={userID}
             />
+
           )}
           </div>
         )}
+
+        {profile.role==='Scholarship Benefactor' && (
+            <Link to={`/compare`}>
+                <button className="comparison-button">Compare Students</button>
+            </Link>
+        )}
+
 
         <div className="users-posts">
             <h3>Your Posts</h3>
