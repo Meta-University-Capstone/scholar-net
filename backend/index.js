@@ -426,8 +426,25 @@ app.get('/profile/additional_info/:userID/:profileID', async (req, res) => {
 
 
 
-
-
+app.get('/compare/students/all', async (req, res) => {
+    try {
+      const students = await prisma.profile.findMany({
+        where: {
+          role: 'High School Student',
+          AdditionalInfo: {
+            some: {},
+          },
+        },
+        include: {
+          AdditionalInfo: true,
+        },
+      });
+      res.status(200).json(students);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 
 app.listen(port, () => {
