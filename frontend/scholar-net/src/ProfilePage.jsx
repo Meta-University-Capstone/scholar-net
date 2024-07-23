@@ -5,6 +5,7 @@ import './ProfilePage.css'
 import Profile from "./Profile";
 import Post from "./Post";
 import AdditionalInfo from "./AdditionalInfo";
+import CompareChart from "./CompareChart";
 
 
 function ProfilePage(){
@@ -241,7 +242,7 @@ const {userID} = useParams();
         )}
 
         {profile.role==='Scholarship Benefactor' && (
-            <Link to={`/compare`}>
+            <Link to={{ pathname: '/compare', bio: profile.bio }}>
                 <button className="comparison-button">Compare Students</button>
             </Link>
         )}

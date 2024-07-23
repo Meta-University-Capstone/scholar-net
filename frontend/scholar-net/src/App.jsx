@@ -8,6 +8,7 @@ import OtherUserProfile from './OtherUserProfile'
 import CompareChart from './CompareChart'
 
 
+
 function App() {
 
   return (
