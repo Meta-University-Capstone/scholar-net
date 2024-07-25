@@ -14,38 +14,40 @@ datasource db {
 }
 
 model User {
-  uid         String        @unique @default("null")
-  email       String
-  Profile     Profile[]
-  Post        Post[]
-  Connections Connections[]
+  uid            String           @unique @default("null")
+  email          String
+  Profile        Profile[]
+  Post           Post[]
+  Connections    Connections[]
+  AdditionalInfo AdditionalInfo[]
 }
 
 model Profile {
-  id          Int           @id @default(autoincrement())
-  user        User          @relation(fields: [userID], references: [uid])
-  userID      String
-  name        String
-  bio         String
-  role        String
-  Post        Post[]
-  Connections Connections[]
+  id             Int              @id @default(autoincrement())
+  user           User             @relation(fields: [userID], references: [uid])
+  userID         String
+  name           String
+  bio            String
+  role           String
+  Post           Post[]
+  Connections    Connections[]
+  AdditionalInfo AdditionalInfo[]
 }
 
 model Post {
-  id                 Int     @id @default(autoincrement())
-  user               User    @relation(fields: [userID], references: [uid])
-  userID             String
-  title              String
-  postUser           String?
-  content            String
-  location           String?
-  field_interest     String
-  likeCount          Int
-  created_at         DateTime  @default(now())
-  updated_at         DateTime?
-  profile            Profile @relation(fields: [profileID], references: [id])
-  profileID          Int
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [userID], references: [uid])
+  userID         String
+  title          String
+  postUser       String?
+  content        String
+  location       String?
+  field_interest String
+  likeCount      Int
+  created_at     DateTime  @default(now())
+  updated_at     DateTime?
+  profile        Profile   @relation(fields: [profileID], references: [id])
+  profileID      Int
 }
 
 model Connections {
@@ -54,4 +56,16 @@ model Connections {
   userID    String
   profile   Profile @relation(fields: [profileID], references: [id])
   profileID Int
+}
+
+model AdditionalInfo {
+  id                 Int     @id @default(autoincrement())
+  user               User    @relation(fields: [userID], references: [uid])
+  userID             String
+  profile            Profile @relation(fields: [profileID], references: [id])
+  profileID          Int
+  age                Int
+  gpa                Float
+  personal_statement String
+  interests          String
 }

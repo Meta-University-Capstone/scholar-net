@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "AdditionalInfo" ALTER COLUMN "gpa" SET DATA TYPE DOUBLE PRECISION;

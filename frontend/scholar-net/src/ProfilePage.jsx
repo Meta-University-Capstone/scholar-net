@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import './ProfilePage.css'
 import Profile from "./Profile";
 import Post from "./Post";
+import AdditionalInfo from "./AdditionalInfo";
+import CompareChart from "./CompareChart";
 
 
 function ProfilePage(){
@@ -11,6 +13,8 @@ const[profile, setProfile] = useState({})
 const [editing, setEditing] = useState(false);
 const [userPosts, setUserPosts] = useState([]);
 const [editModalOpen, setEditModalOpen] = useState(false);
+const [showInfoModal, setShowInfoModal] = useState(false);
+const [additionalInfoSubmitted, setAdditionalInfoSubmitted] = useState(false);
     const [editedPost, setEditedPost] = useState({
       post: null,
       title: "",
@@ -20,6 +24,12 @@ const [editModalOpen, setEditModalOpen] = useState(false);
     });
 
 const {userID} = useParams();
+
+
+    const toggleInfoModal = () => {
+      setShowInfoModal(!showInfoModal);
+    };
+
 
 
     const fetchUserPosts = async () => {
@@ -40,6 +50,7 @@ const {userID} = useParams();
         }
     };
 
+
     useEffect(() => {
         const fetchProfile = async () => {
           try {
@@ -59,9 +70,17 @@ const {userID} = useParams();
             console.error('Error fetching profile:', error);
           }
         };
+
         fetchProfile();
         fetchUserPosts();
     }, [userID]);
+
+    useEffect(() => {
+      if (profile.id) {
+        fetchAdditionalInfo();
+      }
+    }, [profile.id]);
+
 
     const handleEditPost = (post) => {
       setEditedPost({
@@ -146,7 +165,24 @@ const {userID} = useParams();
         setEditing(false);
   };}
 
-
+  const fetchAdditionalInfo = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/profile/additional_info/${userID}/${profile.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const additionalInfo = await response.json();
+        if (additionalInfo.length > 0) {
+          setAdditionalInfoSubmitted(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching additional info:', error);
+    }
+  };
 
 
 
@@ -156,6 +192,7 @@ const {userID} = useParams();
         <Link to={`/`}>
             <button  className="home-btn">Home</button>
         </Link>
+
         <div className="profile-info">
             <h3>Your Profile</h3>
             <Profile
@@ -189,6 +226,28 @@ const {userID} = useParams();
             )}
 
         </div>
+
+        {profile.role === 'High School Student' &&  !additionalInfoSubmitted &&(
+          <div className="additional-info">
+            <button onClick={toggleInfoModal}>Submit Additional Information</button>
+            {showInfoModal && (
+            <AdditionalInfo
+              profileID={profile.id}
+              onClose={toggleInfoModal}
+              userID={userID}
+            />
+
+          )}
+          </div>
+        )}
+
+        {profile.role==='Scholarship Benefactor' && (
+            <Link to={{ pathname: '/compare', bio: profile.bio }}>
+                <button className="comparison-button">Compare Students</button>
+            </Link>
+        )}
+
+
         <div className="users-posts">
             <h3>Your Posts</h3>
 
