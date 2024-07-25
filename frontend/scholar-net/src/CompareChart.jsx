@@ -4,7 +4,7 @@ import RadarChart from './RadarChart';
 import axios from 'axios';
 import { useState, useEffect } from "react";
 import BarCharts from "./BarCharts";
-
+import './CompareChart.css'
 
 
 function CompareChart() {

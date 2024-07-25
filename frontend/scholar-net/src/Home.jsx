@@ -91,7 +91,10 @@ function Home (){
 
     return(
         <>
-        <h1>Scholar-Net</h1>
+        <div className="header">
+            <img src='/public/applogo.png' alt="App Logo" className="logo" />
+            <h1>Scholar-Net</h1>
+        </div>
         <AuthDetails/>
         <div className="nav-btns">
             <Link to={`/search`}>

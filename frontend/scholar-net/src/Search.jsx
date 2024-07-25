@@ -79,7 +79,7 @@ function Search(){
           type="text"
           value={searchTerm}
           onChange={handleChange}
-          placeholder="Search Users..."
+          placeholder="Search......"
         />
         <button onClick={handleSearch}>Search</button>
       </div>

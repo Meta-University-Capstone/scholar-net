@@ -34,3 +34,20 @@
   .bar-label {
     width: 100px;
   }
+/* Ensure the canvas is large enough to accommodate the bars and text */
+canvas {
+    border: 1px solid #ccc;
+    display: block; /* Ensure it is displayed as a block element */
+    margin: 0 auto; /* Center the canvas horizontally */
+  }
+
+  /* Container Styling */
+  .bar-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 20px;
+  }

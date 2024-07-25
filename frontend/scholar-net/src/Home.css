@@ -110,3 +110,10 @@ body {
   .footer p {
     margin: 0;
   }
+
+.logo {
+  width: 120px;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+}

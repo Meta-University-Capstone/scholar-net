@@ -1,11 +1,11 @@
 body {
-  background-color: rgb(159, 154, 154);
+  background-image: url("/public/appbackground.png");
   background-size: cover;
   background-repeat: no-repeat;
   justify-content: center;
 }
 
-.logo {
+/* .logo {
   height: 500px;
   will-change: filter;
   transition: filter 300ms;
@@ -16,7 +16,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .logo:hover {
   filter: drop-shadow(0 0 2em #ffc813aa);
