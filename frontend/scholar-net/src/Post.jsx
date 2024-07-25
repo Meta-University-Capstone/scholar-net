@@ -49,9 +49,14 @@ function Post(props){
 
     return(
         <div className="post">
-            <Link to={`/other_user/${props.profileID}`}>
-                <p>Name: {props.postUser}</p>
-            </Link>
+            {props.userID !== props.usersuid && (
+                <Link to={`/other_user/${props.profileID}`}>
+                    <p>Name: {props.postUser}</p>
+                </Link>
+            )}
+            {props.userID === props.usersuid && (
+                <p>Made by You</p>
+            )}
             <h3>{props.title}</h3>
             <p>{props.location}</p>
             <p>{props.field_interest}</p>

@@ -9,6 +9,7 @@ function OtherUserProfile() {
   const [profile, setProfile] = useState({});
   const [userPosts, setUserPosts] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
+  const [userID, setUserID] = useState(null);
   const { profileID } = useParams();
 
 
@@ -46,10 +47,9 @@ function OtherUserProfile() {
         console.error("Error fetching user posts:", error);
       }
     };
-
-    const fetchConnectionStatus = async () => {
+    const fetchConnectionStatus = async (param) => {
         try {
-          const response = await fetch(`http://localhost:3000/other_user/${profileID}/is_connected`, {
+          const response = await fetch(`http://localhost:3000/${param}/other_user/${profileID}/is_connected`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -57,16 +57,35 @@ function OtherUserProfile() {
           });
           if (response.ok) {
             const isConnected = await response.json();
-            setIsConnected(isConnected);
+            if (isConnected===null){
+              setIsConnected(false);
+            } else{
+              setIsConnected(true);
+            }
           }
         } catch (error) {
           console.error("Error fetching connection status:", error);
         }
       };
-
-      fetchProfile();
-      fetchUserPosts();
-      fetchConnectionStatus();
+      const checkUserProfile = async () => {
+        try {
+          const user = auth.currentUser;
+          if (user) {
+            setUserID(user.uid);
+            fetchProfile();
+            fetchUserPosts();
+            fetchConnectionStatus(user.uid);
+          }
+        } catch (error) {
+          console.error('Error checking user profile:', error);
+        }
+      };
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user) {
+              checkUserProfile();
+          }
+      });
+      return () => unsubscribe();
     }, [profileID]);
 
     const handleAddRemoveConnection = async () => {

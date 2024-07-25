@@ -343,17 +343,19 @@ app.get('/search/:query', async (req, res) => {
   });
 
 
-  app.get("/other_user/:profileID/is_connected", async (req, res) => {
-    const { profileID } = req.params;
-    const { currentUserID } = req.query;
+  app.get("/:userID/other_user/:profileID/is_connected", async (req, res) => {
+    console.log("req.params", req.params)
+    const {userID, profileID } = req.params;
+    console.log("currentUserID",userID)
     try {
       const connection = await prisma.connections.findFirst({
         where: {
-          userID: currentUserID,
+          userID: userID,
           profileID: parseInt(profileID),
         },
       });
-      res.json(!!connection);
+      console.log(connection)
+      res.json(connection);
     } catch (error) {
       console.error("Error checking connection status:", error);
       res.status(500).json({ message: "Internal server error" });

@@ -242,9 +242,9 @@ const {userID} = useParams();
         )}
 
         {profile.role==='Scholarship Benefactor' && (
-            <Link to={{ pathname: '/compare', bio: profile.bio }}>
-                <button className="comparison-button">Compare Students</button>
-            </Link>
+          <Link to={`/compare/${userID}` }>
+              <button className="comparison-button">Compare Students</button>
+          </Link>
         )}
 
 

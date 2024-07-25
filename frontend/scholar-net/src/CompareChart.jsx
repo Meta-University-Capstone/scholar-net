@@ -1,16 +1,53 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,  useParams } from "react-router-dom";
 import RadarChart from './RadarChart';
 import axios from 'axios';
 import { useState, useEffect } from "react";
+import BarCharts from "./BarCharts";
 
 
-function CompareChart(props) {
+
+function CompareChart() {
     const [students, setStudents] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [radarChartData, setRadarChartData] = useState(null);
+    const[profile, setProfile] = useState({})
 
-    const bio = props.bio
+    const {userID} = useParams();
+
+
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/profile/${userID}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (response.ok) {
+                    const profiles = await response.json();
+                    if (profiles.length > 0) {
+                        setProfile(profiles[0]);
+                    }
+                } else {
+                    throw new Error('Failed to fetch profile');
+                }
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+
+        fetchProfile();
+    }, [userID]);
+
+    const bio = profile.bio
+
+
+
+
+
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -20,6 +57,7 @@ function CompareChart(props) {
             if (response.status === 200) {
               const studentsData = response.data;
               setStudents(studentsData);
+              console.log(studentsData)
               generateRadarChartData(studentsData);
             } else {
               throw new Error('Failed to fetch students');
@@ -43,8 +81,17 @@ function CompareChart(props) {
                     text,
                 },
             );
-            const { data } = response;
-            const readabilityScore = data.readability_scores.flesch_kincaid_grade
+            if (!response || !response.data || !response.data.readability_scores) {
+                throw new Error('Invalid response structure');
+            }
+
+            let readabilityScore = response.data.readability_scores.flesch_kincaid_grade;
+            if (readabilityScore < 1) {
+                readabilityScore = 1;
+              } else if (readabilityScore > 10) {
+                readabilityScore = 10;
+              }
+
             return readabilityScore;
         } catch (err) {
             const { msg } = err.response.data;
@@ -53,16 +100,18 @@ function CompareChart(props) {
         }
     }
 
-    const calculateInterestsSimilarity= ( bio, student ) => {
+    const calculateInterestsSimilarity= ( bio, interests ) => {
         try{
-            let score = 0;
+        let score = 0;
 
-        const bioSimilarity = calculateStringSimilarity(bio, student.additionalInfo.interests);
-        score += bioSimilarity * 15;
+        const bioSimilarity = calculateStringSimilarity(bio, interests);
+        score += bioSimilarity * 5;
+
 
         return score;
 
       }catch(error){
+        console.log(error)
         return 0
       };}
 
@@ -108,7 +157,8 @@ function CompareChart(props) {
           age = student.AdditionalInfo[0].age;
           gpa = student.AdditionalInfo[0].gpa;
           personalStatementScore = await run(student.AdditionalInfo[0].personal_statement);
-          interestsSimilarity = calculateInterestsSimilarity(student.AdditionalInfo.interests, bio);
+          interestsSimilarity = calculateInterestsSimilarity(bio, student.AdditionalInfo[0].interests);
+          console.log(student.AdditionalInfo[0].interests)
         }
 
         return {
@@ -166,7 +216,9 @@ function CompareChart(props) {
             {radarChartData && (
             <div className="radar-charts">
                 <RadarChart radarChartData={radarChartData} />
+                <BarCharts radarChartData={radarChartData} />
             </div>
+
             )}
       </div>
 
