@@ -57,7 +57,6 @@ function CompareChart() {
             if (response.status === 200) {
               const studentsData = response.data;
               setStudents(studentsData);
-              console.log(studentsData)
               generateRadarChartData(studentsData);
             } else {
               throw new Error('Failed to fetch students');
@@ -158,7 +157,6 @@ function CompareChart() {
           gpa = student.AdditionalInfo[0].gpa;
           personalStatementScore = await run(student.AdditionalInfo[0].personal_statement);
           interestsSimilarity = calculateInterestsSimilarity(bio, student.AdditionalInfo[0].interests);
-          console.log(student.AdditionalInfo[0].interests)
         }
 
         return {
