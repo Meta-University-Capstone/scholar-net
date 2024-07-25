@@ -139,6 +139,71 @@ function FeedList(props){
 
 
 
+      const calculateScore = (profile, post) => {
+        try{
+            let score = 0;
+
+        if (profile.name === post.postUser) {
+          score += 10;
+        }
+
+        const bioSimilarity = calculateStringSimilarity(profile.bio, post.content);
+        score += bioSimilarity * 15;
+
+
+        if (profile.connections && profile.connections.includes(post.userID)) {
+          score += 5;
+        }
+
+        return score;
+
+      }catch(error){
+        return 0
+      };}
+
+
+  const calculateStringSimilarity = (str1, str2) => {
+    if(str2===undefined || str1===undefined){
+        return 0;
+    }
+    const maxLength = Math.max(str1.length, str2.length);
+    const distance = levenshteinDistance(str1, str2);
+    const similarity = 1 - distance / maxLength;
+    return similarity;
+  };
+
+  const levenshteinDistance = (a, b) => {
+    const matrix = Array.from(Array(a.length + 1), (_, i) => Array(b.length + 1).fill(i));
+    for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+    for (let i = 0; i <= b.length; i++) matrix[0][i] = i;
+    for (let i = 1; i <= a.length; i++) {
+      for (let j = 1; j <= b.length; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + cost
+        );
+      }
+    }
+    return matrix[a.length][b.length];
+  };
+
+
+  const sortPostsByScore = (posts, profile) => {
+    if (!profile || !posts) {
+        return posts
+      }
+    posts.sort((a, b) => {
+      const scoreA = calculateScore(profile, a);
+      const scoreB = calculateScore(profile, b);
+      return scoreB - scoreA;
+    });
+    return posts;
+  };
+
+
+
     return(
             <div className="feed">
               {sortedPosts.map((post) => (
