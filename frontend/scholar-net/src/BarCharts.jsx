@@ -44,6 +44,7 @@ const BarCharts = ({ radarChartData }) => {
 
         ctx.fillStyle = '#000';
         ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
         ctx.fillText(label, 10, baseY + barHeight / 2);
 
         radarChartData.forEach((data, index) => {
