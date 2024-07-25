@@ -20,7 +20,7 @@ function App() {
         <Route path="/profile/:userID" element={<ProfilePage />}/>
         <Route path='/other_user/:profileID' element={<OtherUserProfile />}/>
         <Route path='/search' element={<Search />} />
-        <Route path='/compare' element={<CompareChart/>}/>
+        <Route path='/compare/:userID' element={<CompareChart/>}/>
       </Routes>
     </Router>
   )
