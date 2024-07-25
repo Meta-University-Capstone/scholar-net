@@ -114,12 +114,15 @@ function CompareChart(props) {
         return {
           labels: ['Age', 'GPA', 'Personal Statement', 'Interests'],
           data: [age, gpa, personalStatementScore, interestsSimilarity],
+          name: student.name
         };
       })
     );
     setRadarChartData(radarData);
 
   };
+
+
 
 
     const toggleSelectStudent = (studentId) => {
@@ -154,7 +157,6 @@ function CompareChart(props) {
                     onChange={() => toggleSelectStudent(student.id)}
                     />
                 </div>
-                <p>Average Score: {student.averageScore}</p>
                 </div>
             ))}
             </div>
