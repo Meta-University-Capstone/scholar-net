@@ -88,7 +88,7 @@ const BarCharts = ({ radarChartData }) => {
   return (
     <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
       <h3>Bar Charts</h3>
-      <canvas ref={canvasRef} width={1000} height={1000} style={{ border: '1px solid #ccc' }}></canvas>
+      <canvas ref={canvasRef} width={1000} height={1500} style={{ border: '1px solid #ccc' }}></canvas>
     </div>
   );
 };
