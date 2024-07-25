@@ -10,16 +10,15 @@ button {
   margin: 8px;
 }
 
-/* Hover Effect for Buttons */
 button:hover {
-  background-color: #c02315; /* Darker shade for hover */
-  transform: scale(1.05); /* Slightly enlarges on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
+  background-color: #c02315;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Specific Button Styling */
+
 .home-btn {
-  background-color: #fcca32; /* Green for home button */
+  background-color: #fcca32;
 }
 
 .home-btn:hover {
@@ -27,16 +26,16 @@ button:hover {
 }
 
 .comparison-button {
-  background-color: #fcca32; /* Yellow for comparison button */
+  background-color: #fcca32;
 }
 
 .comparison-button:hover {
   background-color: #d32323;
 }
 
-/* Modal Button Styling */
+
 .modal-content button {
-  background-color: #007bff; /* Same primary color */
+  background-color: #007bff;
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
@@ -52,7 +51,7 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
 }
 
-/* Profile and Post Styling */
+
 .profile-info {
   text-align: center;
   margin: 20px 0;

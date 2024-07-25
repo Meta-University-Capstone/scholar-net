@@ -100,10 +100,13 @@ function Home (){
             <Link to={`/search`}>
                 <button  className="search-btn">Search</button>
             </Link>
+            {hasProfile &&(
             <Link to={`/profile/${userID}`}>
                 <button  className="profile-btn">Your Profile</button>
             </Link>
+        )}
         </div>
+
         {!hasProfile && (
         <div className='create-profile'>
           <p>Create a Profile to get started!</p>
@@ -118,10 +121,12 @@ function Home (){
             <button onClick={toggleSidebar}>View Connections</button>
             <ConnectionsSidebar isOpen={isOpen} toggle={toggleSidebar} userID={userID}/>
         </div>
-        <div className="user-posts">
-            <button onClick={togglePostModal}>Create a Post</button>
-            {showPostModal && <CreateAPost userID={userID} profileID={profileID} onClose={togglePostModal} refreshPosts={()=>getPosts()}/>}
-        </div>
+        {hasProfile &&(
+            <div className="user-posts">
+                <button onClick={togglePostModal}>Create a Post</button>
+                {showPostModal && <CreateAPost userID={userID} profileID={profileID} onClose={togglePostModal} refreshPosts={()=>getPosts()}/>}
+            </div>
+         )}
         <footer className='footer'>
             <p>©️ Helping The Future of Education</p>
         </footer>
