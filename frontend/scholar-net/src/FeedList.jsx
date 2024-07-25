@@ -2,6 +2,56 @@ import Post from './Post'
 import './FeedList.css'
 import { useState, useEffect } from 'react'
 
+class BloomFilter {
+    constructor(size, numHashFunctions) {
+      this.size = size;
+      this.numHashFunctions = numHashFunctions;
+      this.bitArray = new Array(size).fill(false);
+    }
+
+    add(element) {
+      const hashValues = this.getHashValues(element);
+      hashValues.forEach(hash => {
+        this.bitArray[hash] = true;
+      });
+    }
+
+    contains(element) {
+      const hashValues = this.getHashValues(element);
+      return hashValues.every(hash => this.bitArray[hash]);
+    }
+
+    getHashValues(element) {
+      const hashes = [];
+      for (let i = 0; i < this.numHashFunctions; i++) {
+        hashes.push(this.hashFunction(element, i) % this.size);
+      }
+      return hashes;
+    }
+
+    hashFunction(element, index) {
+      let hash = 0;
+      const str = element.toString();
+
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+      }
+
+
+      hash ^= index;
+      hash += ~(hash << 15);
+      hash ^= (hash >>> 10);
+      hash += (hash << 3);
+      hash ^= (hash >>> 6);
+      hash += ~(hash << 11);
+      hash ^= (hash >>> 16);
+
+      return hash >>> 0;
+    }
+  }
+
+
 function FeedList(props){
     const [editModalOpen, setEditModalOpen] = useState(false);
     const[profile, setProfile] = useState({})
@@ -14,6 +64,11 @@ function FeedList(props){
       field_interest: "",
       content: "",
     });
+
+    const bloomFilterSize = 128;
+    const numHashFunctions = 3;
+    const bloomFilter = new BloomFilter(bloomFilterSize, numHashFunctions);
+
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -73,6 +128,15 @@ function FeedList(props){
         };
         sortAndSetPosts();
     }, [props.posts, profile]);
+
+    useEffect(() => {
+        if (profile.Connections && Array.isArray(profile.Connections)) {
+          profile.Connections.forEach(connection => {
+            bloomFilter.add(connection);
+          });
+        }
+      }, [profile.Connections]);
+
 
     const handleEditPost = (post) => {
       setEditedPost({
@@ -150,8 +214,8 @@ function FeedList(props){
         score += bioSimilarity * 15;
 
 
-        if (profile.connections && profile.connections.includes(post.userID)) {
-          score += 5;
+        if (profile.Connections && bloomFilter.contains(post.userID)) {
+            score += 5;
         }
 
         return score;

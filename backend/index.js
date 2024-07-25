@@ -63,6 +63,9 @@ app.get('/profile/:uid', async (req, res) => {
         where: {
           userID,
         },
+        include: {
+            Connections: true,
+          },
       });
 
       res.status(200).json(profiles);
