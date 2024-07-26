@@ -220,7 +220,11 @@ function FeedList(props){
 
 
 
+    const calculateScore = (profile, post) => {
+=======
+
       const calculateScore = (profile, post) => {
+
         try{
             let score = 0;
 
@@ -240,7 +244,7 @@ function FeedList(props){
 
       }catch(error){
         return 0
-      };}
+    } }
 
 
   const calculateStringSimilarity = (str1, str2) => {
@@ -358,6 +362,6 @@ function FeedList(props){
             )}
             </div>
         );
-        }
+    }
 
 export default FeedList

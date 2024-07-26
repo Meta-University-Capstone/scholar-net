@@ -37,8 +37,7 @@ function Home (){
         } catch (error) {
           console.error('Error fetching posts:', error);
         }
-      }
-
+    }
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -78,8 +77,7 @@ function Home (){
             } else {
                 setHasProfile(false);
             }
-        });
-
+        } );
         return () => unsubscribe();
     }, []);
 
@@ -131,7 +129,7 @@ function Home (){
             <p>©️ Helping The Future of Education</p>
         </footer>
         </>
-        )
+    )
 }
 
 

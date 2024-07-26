@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import './Post.css'
 
-
 function Post(props){
     const [likeCount, setLikeCount] = useState(props.likeCount);
     const [unLike, setUnLike] = useState(props.likedByCurrentUser ? "Unlike" : "Like");
-
     const { userID } = useParams();
 
     const handleLikeClick = async () => {
@@ -54,10 +52,10 @@ function Post(props){
                 <Link to={`/other_user/${props.profileID}`}>
                     <p>Name: {props.postUser}</p>
                 </Link>
-            )}
+            ) }
             {props.userID === props.usersuid && (
                 <p>Made by You</p>
-            )}
+            ) }
             <h3>{props.title}</h3>
             <p>{props.location}</p>
             <p>{props.field_interest}</p>
@@ -65,7 +63,7 @@ function Post(props){
             <p>Created: {formatDate(props.created_at)}</p>
             {props.updated_at && props.updated_at !== props.created_at && (
                 <p>Updated: {formatDate(props.updated_at)}</p>
-            )}
+            ) }
             <div className='like-button'>
                 <button onClick={()=>handleLikeClick()}>{unLike}</button><span id="like-count">{likeCount}❤️</span>
             </div>

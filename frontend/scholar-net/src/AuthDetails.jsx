@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 const AuthDetails = () => {
     const [authUser, setAuthUser] = useState(null)
 
-
     useEffect(() =>{
         const listen = onAuthStateChanged(auth, (user) => {
             if (user){
@@ -18,7 +17,6 @@ const AuthDetails = () => {
                 setAuthUser(null)
             }
         } )
-
         return () => {
             listen()
         }

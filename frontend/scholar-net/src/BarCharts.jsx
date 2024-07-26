@@ -59,7 +59,7 @@ const BarCharts = ({ radarChartData }) => {
           ctx.fillRect(baseX, baseY, barWidth, barHeight);
 
           baseY += barHeight + barSpacing;
-        });
+        } );
 
 
         ctx.beginPath();
@@ -78,7 +78,7 @@ const BarCharts = ({ radarChartData }) => {
         }
 
         baseY += 2 * barSpacing;
-      });
+      } );
     };
 
     renderBarCharts();

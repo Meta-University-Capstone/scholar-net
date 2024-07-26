@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import "./CreateAPost.css";
-
 
 function CreateAPost({ onClose, userID, profileID, refreshPosts }) {
   const [title, setTitle] = useState("");
@@ -8,7 +6,6 @@ function CreateAPost({ onClose, userID, profileID, refreshPosts }) {
   const [location, setLocation] = useState("");
   const [field_interest, setFieldInterest] = useState("");
   const [posts, setPosts] = useState([])
-
 
   const handleChange = (e) => {
     if (e.target.name === "title") {
