@@ -55,7 +55,6 @@ function Home (){
         const checkUserProfile = async () => {
           try {
             const user = auth.currentUser;
-            console.log(user)
             if (user) {
               setUserID(user.uid);
               const response = await fetch(`http://localhost:3000/profile/${user.uid}`);

@@ -217,21 +217,15 @@ function FeedList(props){
       setEditedPost({...editedPost,[name]: value,});
     };
 
-
-
-
-
     const calculateScore = (profile, post) => {
         try{
             let score = 0;
-
         if (profile.name === post.postUser) {
           score += 10;
         }
 
         const bioSimilarity = calculateStringSimilarity(profile.bio, post.content);
         score += bioSimilarity * 15;
-
 
         if (profile.Connections && bloomFilter.contains(post.userID)) {
             score += 5;
