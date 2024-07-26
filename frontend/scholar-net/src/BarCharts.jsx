@@ -25,7 +25,7 @@ const BarCharts = ({ radarChartData }) => {
     const renderBarCharts = () => {
       const barHeight = 20;
       const barSpacing = 40;
-      const baseX = 200;
+      const baseX = 250;
       let baseY = 50;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -33,16 +33,18 @@ const BarCharts = ({ radarChartData }) => {
       if (!radarChartData || radarChartData.length === 0) {
         ctx.fillStyle = '#000';
         ctx.font = '16px Arial';
-        ctx.fillText('Select Students to get started!', baseX, baseY);
+        ctx.textAlign = 'center';
+        ctx.fillText('Select Students to get started!',  canvas.width / 2, canvas.height/2);
         return;
       }
 
       labels.forEach((label, labelIndex) => {
         const maxValueForLabel = maxValues[labelIndex];
-        const totalWidth = canvas.width - baseX - 100;
+        const totalWidth = canvas.width - baseX - 50;
 
         ctx.fillStyle = '#000';
-        ctx.font = '14px Arial';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
         ctx.fillText(label, 10, baseY + barHeight / 2);
 
         radarChartData.forEach((data, index) => {
@@ -86,7 +88,7 @@ const BarCharts = ({ radarChartData }) => {
   return (
     <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
       <h3>Bar Charts</h3>
-      <canvas ref={canvasRef} width={1000} height={850} style={{ border: '1px solid #ccc' }}></canvas>
+      <canvas ref={canvasRef} width={1000} height={1500} style={{ border: '1px solid #ccc' }}></canvas>
     </div>
   );
 };

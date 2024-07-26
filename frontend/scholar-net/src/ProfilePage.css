@@ -1,29 +1,100 @@
+/* General Button Styling */
+button {
+  background-color: #f10000; /* Primary color */
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 8px;
+}
+
+button:hover {
+  background-color: #c02315;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.home-btn {
+  background-color: #fcca32;
+}
+
+.home-btn:hover {
+  background-color: #d32323;
+}
+
+.comparison-button {
+  background-color: #fcca32;
+}
+
+.comparison-button:hover {
+  background-color: #d32323;
+}
+
+
+.modal-content button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3; /* Darker shade for hover */
+  transform: scale(1.05); /* Slightly enlarges on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
+}
+
+
+.profile-info {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.users-posts {
+  margin: 20px;
+}
+
+/* Ensure visibility of the edit profile button */
+.profile-info button {
+  display: inline-block; /* Ensure it is shown as a block element */
+  margin-top: 20px; /* Space above the button */
+}
+
+/* Modal Overlay and Content Styling */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+}
 
-  .modal-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  cursor: pointer;
+}

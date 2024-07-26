@@ -1,70 +1,45 @@
 body {
-  background-color: rgb(159, 154, 154);
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url("/public/appbackground.png");
+  align-items: center;
   justify-content: center;
+}
+
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-right: 1000px;
 }
 
 .logo {
-  height: 500px;
-  will-change: filter;
-  transition: filter 300ms;
-  width: auto;
-  margin-top: 100px;
-  margin-right: 900px;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #ffc813aa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  width: 90px;
+  height: auto;
+  margin-right: 20px;
 }
 
 .sign-in-container {
-  font-family: 'Courier Prime', Courier, monospace;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  width: 80%;
   max-width: 200px;
-  background-color: rgba(7, 4, 4, 0.9);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-footer{
+.login-footer {
   margin-top: 1rem;
-  color: #000000;
+  color: black;
   font-size: 1rem;
   text-align: center;
 }
-
-.login-body{
-  height: 100vh;
-  padding: 0 50px;
-  flex-direction: row;
+.logo:hover {
+  filter: drop-shadow(0 0 2em #ffc813aa);
 }
-
 @media (max-width: 768px) {
   .login-container {
     flex-direction: column;
-    align-items: center;
   }
 
-  .logo-container {
-    margin-bottom: 2rem;
-  }
-
-  .sign-in-container {
-    width: 100%;
-
+  .logo {
+    margin-bottom: 20px;
   }
 }

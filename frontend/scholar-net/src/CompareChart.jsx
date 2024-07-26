@@ -4,7 +4,7 @@ import RadarChart from './RadarChart';
 import axios from 'axios';
 import { useState, useEffect } from "react";
 import BarCharts from "./BarCharts";
-
+import './CompareChart.css'
 
 
 function CompareChart() {
@@ -55,7 +55,8 @@ function CompareChart() {
             const response = await axios.get('http://localhost:3000/compare/students/all');
 
             if (response.status === 200) {
-              const studentsData = response.data;
+              const fetchedStudentsData = response.data;
+              const studentsData = fetchedStudentsData.filter(student => student.AdditionalInfo && student.AdditionalInfo.length > 0);
               setStudents(studentsData);
               generateRadarChartData(studentsData);
             } else {

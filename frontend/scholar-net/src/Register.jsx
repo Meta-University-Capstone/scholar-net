@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 import './Register.css'
 
+
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,6 +52,7 @@ function Register() {
 
   return (
     <>
+    <div className='register-body'>
       <div>
         <img src='/public/applogo.png' className="logo"/>
       </div>
@@ -62,10 +64,13 @@ function Register() {
             <button type='submit'>Register</button>
         </form>
       </div>
-      <p>Already have an account?</p>
-      <Link to={`/login`}>
-        <p>Login</p>
-      </Link>
+      </div>
+      <div className='register-footer'>
+        <p>Already have an account?</p>
+        <Link to={`/login`}>
+          <p>Login</p>
+        </Link>
+      </div>
     </>
   )
 }

@@ -26,6 +26,7 @@ function Login() {
   return (
     <>
       <div className='login-body'>
+      <div className="login-container">
         <div className='logopic'>
           <img src='/public/applogo.png' className="logo"/>
         </div>
@@ -37,6 +38,7 @@ function Login() {
             <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
             <button type='submit'>LOGIN</button>
         </form>
+      </div>
       </div>
       <div className='login-footer'>
       <p>Don't have an account?</p>
