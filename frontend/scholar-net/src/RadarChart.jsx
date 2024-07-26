@@ -18,7 +18,7 @@ const RadarChart = ({ radarChartData, legendData }) => {
         const x = Math.cos(angle) * (value / maxValue) * radius;
         const y = Math.sin(angle) * (value / maxValue) * radius;
         coordinates.push({ x, y });
-      });
+      } );
 
       return coordinates;
     };
@@ -81,7 +81,7 @@ const RadarChart = ({ radarChartData, legendData }) => {
 
         coordinates.forEach((coord, idx) => {
           ctx.lineTo(centerX + coord.x, centerY + coord.y);
-        });
+        } );
 
         ctx.closePath();
         ctx.stroke();
@@ -96,8 +96,8 @@ const RadarChart = ({ radarChartData, legendData }) => {
           ctx.textAlign = Math.cos(angle) > 0 ? 'left' : 'right';
           ctx.textBaseline = 'middle';
           ctx.fillText(data.labels[idx], labelX, labelY);
-        });
-      });
+        } );
+      } );
     };
 
     const resizeCanvas = () => {
@@ -105,16 +105,12 @@ const RadarChart = ({ radarChartData, legendData }) => {
       canvas.height = canvas.clientHeight;
       renderRadarChart();
     };
-
     resizeCanvas();
-
     window.addEventListener('resize', resizeCanvas);
-
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
-
-  }, [radarChartData, legendData]);
+    }, [radarChartData, legendData]);
 
   return (
     <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto', padding: '20px' }}>

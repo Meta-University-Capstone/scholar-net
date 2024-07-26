@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 const ConnectionsList = ({userID}) => {
     const [connections, setConnections] = useState([]);
 
-
     useEffect(() => {
         const fetchConnections = async () => {
           try {
@@ -22,14 +21,13 @@ const ConnectionsList = ({userID}) => {
             console.error('Error fetching connections:', error);
           }
         };
-
         if (userID) {
           fetchConnections();
         }
     }, [userID])
 
     return (
-        <div className="connection">
+      <div className="connection">
         {connections.length > 0 ? (
             connections.map((connection) => (
                 <div key={connection.id} className="connection">
@@ -41,8 +39,8 @@ const ConnectionsList = ({userID}) => {
             ))
         ) : (
             <p>No connections found.</p>
-        )}
-    </div>
+        ) }
+      </div>
     )
 }
 

@@ -3,6 +3,7 @@ import ConnectionsList from './ConnectionsList'
 import './ConnectionsSidebar.css'
 
 function ConnectionsSidebar(props) {
+
     return (
         <nav className={props.isOpen ? 'sidebar open' : 'sidebar'}>
           <ul>
@@ -14,7 +15,6 @@ function ConnectionsSidebar(props) {
           <button onClick={props.toggle}>Close</button>
         </nav>
       );
-
 }
 
 export default ConnectionsSidebar

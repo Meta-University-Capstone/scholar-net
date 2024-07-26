@@ -12,7 +12,6 @@ function OtherUserProfile() {
   const [userID, setUserID] = useState(null);
   const { profileID } = useParams();
 
-
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -21,7 +20,7 @@ function OtherUserProfile() {
           headers: {
             "Content-Type": "application/json",
           },
-        });
+        } );
         if (response.ok) {
           const profileData = await response.json();
           setProfile(profileData);
@@ -38,7 +37,7 @@ function OtherUserProfile() {
           headers: {
             "Content-Type": "application/json",
           },
-        });
+        } );
         if (response.ok) {
           const postsData = await response.json();
           setUserPosts(postsData);
@@ -47,6 +46,7 @@ function OtherUserProfile() {
         console.error("Error fetching user posts:", error);
       }
     };
+
     const fetchConnectionStatus = async (param) => {
         try {
           const response = await fetch(`http://localhost:3000/${param}/other_user/${profileID}/is_connected`, {
@@ -54,7 +54,7 @@ function OtherUserProfile() {
             headers: {
               "Content-Type": "application/json",
             },
-          });
+          } );
           if (response.ok) {
             const isConnected = await response.json();
             if (isConnected===null){
@@ -66,8 +66,9 @@ function OtherUserProfile() {
         } catch (error) {
           console.error("Error fetching connection status:", error);
         }
-      };
-      const checkUserProfile = async () => {
+    };
+
+    const checkUserProfile = async () => {
         try {
           const user = auth.currentUser;
           if (user) {
@@ -84,7 +85,7 @@ function OtherUserProfile() {
           if (user) {
               checkUserProfile();
           }
-      });
+      } );
       return () => unsubscribe();
     }, [profileID]);
 
@@ -95,7 +96,6 @@ function OtherUserProfile() {
           console.error("Current user ID is not available.");
           return;
         }
-
         try {
           let response;
           if (isConnected) {
@@ -105,7 +105,7 @@ function OtherUserProfile() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({ currentUserID }),
-            });
+            } );
           } else {
             response = await fetch(`http://localhost:3000/other_user/${profileID}`, {
               method: "POST",
@@ -113,7 +113,7 @@ function OtherUserProfile() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({ currentUserID }),
-            });
+            } );
           }
           if (response.ok) {
             setIsConnected(!isConnected);
@@ -123,7 +123,7 @@ function OtherUserProfile() {
         } catch (error) {
           console.error("Error updating connection:", error);
         }
-      };
+   };
 
 
   return (
@@ -134,10 +134,10 @@ function OtherUserProfile() {
       <div className="profile-info">
         <h3>{profile.name}'s Profile</h3>
         <div className="add-remove-connection">
-        <button onClick={handleAddRemoveConnection}>
-          {isConnected ?  "Remove from Connections" : "Add to Connections"}
-        </button>
-      </div>
+          <button onClick={handleAddRemoveConnection}>
+            {isConnected ?  "Remove from Connections" : "Add to Connections"}
+          </button>
+        </div>
         <Profile
         name={profile.name}
         role={profile.role}
@@ -162,7 +162,7 @@ function OtherUserProfile() {
             created_at={post.created_at}
             updated_at={post.updated_at}
           />
-        ))}
+        ) ) }
       </div>
     </>
   );

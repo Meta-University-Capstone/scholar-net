@@ -12,10 +12,7 @@ function CompareChart() {
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [radarChartData, setRadarChartData] = useState(null);
     const[profile, setProfile] = useState({})
-
     const {userID} = useParams();
-
-
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -25,7 +22,7 @@ function CompareChart() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                });
+                } );
                 if (response.ok) {
                     const profiles = await response.json();
                     if (profiles.length > 0) {
@@ -44,16 +41,10 @@ function CompareChart() {
 
     const bio = profile.bio
 
-
-
-
-
-
     useEffect(() => {
         const fetchStudents = async () => {
           try {
             const response = await axios.get('http://localhost:3000/compare/students/all');
-
             if (response.status === 200) {
               const fetchedStudentsData = response.data;
               const studentsData = fetchedStudentsData.filter(student => student.AdditionalInfo && student.AdditionalInfo.length > 0);
@@ -66,9 +57,8 @@ function CompareChart() {
             console.error('Error fetching students:', error);
           }
         };
-
         fetchStudents();
-      }, []);
+    }, []);
 
 
 
@@ -84,18 +74,15 @@ function CompareChart() {
             if (!response || !response.data || !response.data.readability_scores) {
                 throw new Error('Invalid response structure');
             }
-
             let readabilityScore = response.data.readability_scores.flesch_kincaid_grade;
             if (readabilityScore < 1) {
                 readabilityScore = 1;
               } else if (readabilityScore > 10) {
                 readabilityScore = 10;
               }
-
             return readabilityScore;
         } catch (err) {
             const { msg } = err.response.data;
-            console.log({ error: msg });
             return null;
         }
     }
@@ -107,13 +94,10 @@ function CompareChart() {
         const bioSimilarity = calculateStringSimilarity(bio, interests);
         score += bioSimilarity * 5;
 
-
         return score;
-
       }catch(error){
-        console.log(error)
         return 0
-      };}
+    };}
 
 
   const calculateStringSimilarity = (str1, str2) => {
@@ -168,10 +152,7 @@ function CompareChart() {
       })
     );
     setRadarChartData(radarData);
-
   };
-
-
 
 
     const toggleSelectStudent = (studentId) => {
@@ -198,29 +179,25 @@ function CompareChart() {
             <div className="students-list">
             {students.map((student) => (
                 <div key={student.id} className={`student-card ${selectedStudents.includes(student.id) ? 'selected' : ''}`}>
-                <div className="student-header">
-                    <h3>{student.name}</h3>
-                    <input
-                    type="checkbox"
-                    checked={selectedStudents.includes(student.id)}
-                    onChange={() => toggleSelectStudent(student.id)}
-                    />
-                </div>
+                    <div className="student-header">
+                        <h3>{student.name}</h3>
+                        <input
+                        type="checkbox"
+                        checked={selectedStudents.includes(student.id)}
+                        onChange={() => toggleSelectStudent(student.id)}
+                        />
+                    </div>
                 </div>
             ))}
             </div>
-
             <button onClick={compareStudents}>Compare Selected Students</button>
-
             {radarChartData && (
             <div className="radar-charts">
                 <RadarChart radarChartData={radarChartData} />
                 <BarCharts radarChartData={radarChartData} />
             </div>
-
-            )}
+            ) }
       </div>
-
     </>
       )
 }

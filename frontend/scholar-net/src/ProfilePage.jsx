@@ -5,7 +5,6 @@ import './ProfilePage.css'
 import Profile from "./Profile";
 import Post from "./Post";
 import AdditionalInfo from "./AdditionalInfo";
-import CompareChart from "./CompareChart";
 
 
 function ProfilePage(){
@@ -21,16 +20,13 @@ const [additionalInfoSubmitted, setAdditionalInfoSubmitted] = useState(false);
       location: "",
       field_interest: "",
       content: "",
-    });
+    } );
 
 const {userID} = useParams();
-
 
     const toggleInfoModal = () => {
       setShowInfoModal(!showInfoModal);
     };
-
-
 
     const fetchUserPosts = async () => {
         try {
@@ -39,8 +35,7 @@ const {userID} = useParams();
             headers: {
               "Content-Type": "application/json",
             },
-          });
-
+          } );
           if (postsResponse.ok) {
             const posts = await postsResponse.json();
             setUserPosts(posts);
@@ -89,7 +84,7 @@ const {userID} = useParams();
         location: post.location,
         field_interest: post.field_interest,
         content: post.content,
-      });
+      } );
       setEditModalOpen(true);
     };
 
@@ -125,7 +120,7 @@ const {userID} = useParams();
       try {
         const response = await fetch(`http://localhost:3000/posts/${postId}`, {
           method: "DELETE",
-        });
+        } );
         if (!response.ok) {
           throw new Error("Failed to delete post");
         }
@@ -157,13 +152,13 @@ const {userID} = useParams();
         name: profile.name,
         bio: profile.bio,
         role: profile.role,
-      }), id: profile.id,
-    });
+      } ), id: profile.id,
+    } );
     if (response.ok) {
         const updatedProfile = await response.json();
         setProfile(updatedProfile);
         setEditing(false);
-  };}
+  } }
 
   const fetchAdditionalInfo = async () => {
     try {
@@ -172,7 +167,7 @@ const {userID} = useParams();
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      } );
       if (response.ok) {
         const additionalInfo = await response.json();
         if (additionalInfo.length > 0) {
@@ -183,7 +178,6 @@ const {userID} = useParams();
       console.error('Error fetching additional info:', error);
     }
   };
-
 
 
     return(
@@ -236,21 +230,18 @@ const {userID} = useParams();
               onClose={toggleInfoModal}
               userID={userID}
             />
-
-          )}
+            ) }
           </div>
-        )}
+        ) }
 
         {profile.role==='Scholarship Benefactor' && (
           <Link to={`/compare/${userID}` }>
               <button className="comparison-button">Compare Students</button>
           </Link>
-        )}
-
+        ) }
 
         <div className="users-posts">
-            <h3>Your Posts</h3>
-
+          <h3>Your Posts</h3>
           {userPosts.map((post) => (
             <Post
             key={post.id}

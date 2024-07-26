@@ -20,31 +20,30 @@ function Login() {
     }).catch((error) => {
         console.log(error);
     });
-
   };
 
   return (
     <>
       <div className='login-body'>
-      <div className="login-container">
-        <div className='logopic'>
-          <img src='/public/applogo.png' className="logo"/>
+        <div className="login-container">
+          <div className='logopic'>
+            <img src='/public/applogo.png' className="logo"/>
+          </div>
+        </div>
+        <div className="sign-in-container">
+          <form onSubmit={signIn}>
+              <h1>LOGIN</h1>
+              <input type='email' placeholder='Enter your email' value={email} onChange={(e)=> setEmail(e.target.value)} ></input>
+              <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
+              <button type='submit'>LOGIN</button>
+          </form>
         </div>
       </div>
-      <div className="sign-in-container">
-        <form onSubmit={signIn}>
-            <h1>LOGIN</h1>
-            <input type='email' placeholder='Enter your email' value={email} onChange={(e)=> setEmail(e.target.value)} ></input>
-            <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
-            <button type='submit'>LOGIN</button>
-        </form>
-      </div>
-      </div>
       <div className='login-footer'>
-      <p>Don't have an account?</p>
-      <Link to={`/register`}>
-        <p>Register</p>
-      </Link>
+        <p>Don't have an account?</p>
+        <Link to={`/register`}>
+          <p>Register</p>
+        </Link>
       </div>
     </>
   )

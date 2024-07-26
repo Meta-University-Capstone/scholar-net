@@ -4,14 +4,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure modal is on top of other content */
+    z-index: 1000;
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s, opacity 0.3s ease; /* Smooth transition for visibility */
+    transition: visibility 0s, opacity 0.3s ease;
   }
 
   .modal-overlay.open {
@@ -82,7 +82,6 @@
     background-color: #0056b3;
   }
 
-  /* Media query for smaller screens */
   @media (max-width: 600px) {
     .modal-content {
       width: 100%;

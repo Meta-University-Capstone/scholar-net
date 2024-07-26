@@ -28,42 +28,37 @@ function Register() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(userData),
-            })
+            } )
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 navigate("/")
                 return response.json();
-            })
+            } )
             .catch(error => {
                 console.error('Error sending user data to server:', error);
-            });
+            } );
 
-        }).catch((error) => {
+        } ).catch((error) => {
             console.log('Error creating user:', error);
-        });
+        } );
     }
-
-
-
-
-
 
   return (
     <>
     <div className='register-body'>
-      <div>
-        <img src='/public/applogo.png' className="logo"/>
-      </div>
-      <div className="sign-in-container">
-        <form onSubmit={register}>
-            <h1>Create an Account</h1>
-            <input type='email' placeholder='Enter your email' value={email} onChange={(e)=> setEmail(e.target.value)} ></input>
-            <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
-            <button type='submit'>Register</button>
-        </form>
-      </div>
+        <div>
+          <img src='/public/applogo.png' className="logo"/>
+        </div>
+        <div className="sign-in-container">
+          <form onSubmit={register}>
+              <h1>Create an Account</h1>
+              <input type='email' placeholder='Enter your email' value={email} onChange={(e)=> setEmail(e.target.value)} ></input>
+              <input type='password' placeholder='Enter your password' value={password} onChange={(e)=> setPassword(e.target.value)} ></input>
+              <button type='submit'>Register</button>
+          </form>
+        </div>
       </div>
       <div className='register-footer'>
         <p>Already have an account?</p>

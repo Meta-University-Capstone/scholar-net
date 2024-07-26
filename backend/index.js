@@ -30,7 +30,6 @@ const checkUserID = (req, res, next) => {
 
 app.post('/register', async (req, res) => {
     const { uid, email } = req.body;
-
     try {
         const newUser = await prisma.user.create({
             data: {
@@ -43,21 +42,20 @@ app.post('/register', async (req, res) => {
         console.error('Error saving user data:', error);
         res.status(500).json({ error: 'Error saving user data' });
     }
-});
+} );
 
 
 app.get('/register', (req, res) => {
     res.status(200).json({ message: 'User data received successfully' });
-});
+} );
 
 app.get('/', (req, res) => {
     res.send(`
     <html>Hello World!</html>`);
-});
+} );
 
 app.get('/profile/:uid', async (req, res) => {
     const userID = req.params.uid;
-
     try {
       const profiles = await prisma.profile.findMany({
         where: {
@@ -73,13 +71,12 @@ app.get('/profile/:uid', async (req, res) => {
       console.error('Error fetching profiles:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
+} );
 
 
 
 app.post('/profile', async (req, res) => {
     const { name, bio, role, userID} = req.body;
-
     try {
         const profile = await prisma.profile.create({
             data: {
@@ -98,12 +95,11 @@ app.post('/profile', async (req, res) => {
         console.error('Error creating profile:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+} );
 
 app.put('/profile/:uid/:id', checkUserID, async (req, res) => {
     const { name, bio, role } = req.body;
     const id = req.params.id;
-
     try {
       const profile = await prisma.profile.update({
         where: { id: Number(id) },
@@ -117,7 +113,7 @@ app.put('/profile/:uid/:id', checkUserID, async (req, res) => {
       console.error('Error updating profile:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-});
+} );
 
 app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
     const userID = req.params.uid;
@@ -127,7 +123,6 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
         where: {id : parseInt(profileID)}
       })
     const postUser = await postProfile.name
-
     try {
       const newPost = await prisma.post.create({
         data: {
@@ -151,9 +146,9 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
       console.error('Error creating post:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
+} );
 
-  app.get('/posts', async (req, res) => {
+app.get('/posts', async (req, res) => {
     try{
         const posts = await prisma.post.findMany({
             include: {
@@ -164,9 +159,9 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
     }catch(err){
       res.status(500).json({err: 'Internal Server Error'})
     }
-  });
+} );
 
-  app.get('/posts/:uid', async (req, res) => {
+app.get('/posts/:uid', async (req, res) => {
     const userID = req.params.uid;
     try {
       const userPosts = await prisma.post.findMany({
@@ -179,12 +174,11 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
       console.error('Error fetching user posts:', err);
       res.status(500).json({ err: 'Internal Server Error' });
     }
-  });
+} );
 
-  app.put('/posts/:id', async (req, res) => {
+app.put('/posts/:id', async (req, res) => {
     const postId = parseInt(req.params.id);
     const { title, content, location, field_interest } = req.body;
-
     try {
         const post = await prisma.post.findUnique({
             where: { id: postId },
@@ -210,11 +204,10 @@ app.post('/profile/:uid/:id/posts', checkUserID, async (req, res) => {
         console.error('Error updating post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+} );
 
 app.delete('/posts/:id', async (req, res) => {
     const postId = parseInt(req.params.id);
-
     try {
         const post = await prisma.post.findUnique({
             where: { id: postId },
@@ -232,12 +225,11 @@ app.delete('/posts/:id', async (req, res) => {
         console.error('Error deleting post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+} );
 
 app.post('/posts/:id/like', async (req, res) => {
     const postId = parseInt(req.params.id);
     const { increment } = req.body;
-
     try {
         const post = await prisma.post.update({
             where: { id: postId },
@@ -252,12 +244,11 @@ app.post('/posts/:id/like', async (req, res) => {
         console.error('Error updating like count:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+} );
 
 
 app.get('/search/:query', async (req, res) => {
     const { query } = req.params;
-
     try {
       const posts = await prisma.post.findMany({
         where: {
@@ -276,9 +267,9 @@ app.get('/search/:query', async (req, res) => {
       console.error('Error searching posts:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+} );
 
-  app.get('/other_user/:profileID', async (req, res) => {
+app.get('/other_user/:profileID', async (req, res) => {
     const { profileID } = req.params;
     try {
       const profile = await prisma.profile.findUnique({
@@ -293,10 +284,10 @@ app.get('/search/:query', async (req, res) => {
       console.error('Error fetching profile:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
-  });
+} );
 
 
-  app.get('/profile/:profileID/posts', async (req, res) => {
+app.get('/profile/:profileID/posts', async (req, res) => {
     const { profileID } = req.params;
     try {
       const posts = await prisma.post.findMany({
@@ -308,9 +299,9 @@ app.get('/search/:query', async (req, res) => {
       console.error('Error fetching posts:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
-  });
+} );
 
-  app.post("/other_user/:profileID", async (req, res) => {
+app.post("/other_user/:profileID", async (req, res) => {
     const { profileID } = req.params;
     const { currentUserID } = req.body;
     try {
@@ -325,10 +316,10 @@ app.get('/search/:query', async (req, res) => {
       console.error("Error adding connection:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  });
+} );
 
 
-  app.delete("/other_user/:profileID", async (req, res) => {
+app.delete("/other_user/:profileID", async (req, res) => {
     const { profileID } = req.params;
     const { currentUserID } = req.body;
     try {
@@ -343,13 +334,11 @@ app.get('/search/:query', async (req, res) => {
       console.error("Error removing connection:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  });
+} );
 
 
-  app.get("/:userID/other_user/:profileID/is_connected", async (req, res) => {
-    console.log("req.params", req.params)
+app.get("/:userID/other_user/:profileID/is_connected", async (req, res) => {
     const {userID, profileID } = req.params;
-    console.log("currentUserID",userID)
     try {
       const connection = await prisma.connections.findFirst({
         where: {
@@ -357,13 +346,12 @@ app.get('/search/:query', async (req, res) => {
           profileID: parseInt(profileID),
         },
       });
-      console.log(connection)
       res.json(connection);
     } catch (error) {
       console.error("Error checking connection status:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  });
+} );
 
 
 app.get('/connections/:currentUserID', async (req, res) => {
@@ -377,18 +365,16 @@ app.get('/connections/:currentUserID', async (req, res) => {
           profile: true,
         },
       });
-
       res.status(200).json(connections);
     } catch (error) {
       console.error('Error fetching connections:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
+} );
 
-  app.post('/additional_info/:uid/:profileID', checkUserID, async (req, res) => {
+app.post('/additional_info/:uid/:profileID', checkUserID, async (req, res) => {
     const { uid, profileID } = req.params;
     const { age, gpa, personal_statement, interests } = req.body;
-
     try {
         const profile = await prisma.profile.findUnique({
             where: { id: parseInt(profileID) },
@@ -403,17 +389,15 @@ app.get('/connections/:currentUserID', async (req, res) => {
                 interests,
             },
         });
-
         res.status(201).json(additionalInfo);
     } catch (error) {
         console.error('Error creating additional info:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+} );
 
 app.get('/profile/additional_info/:userID/:profileID', async (req, res) => {
     const { userID, profileID } = req.params;
-
     try {
       const additionalInfo = await prisma.additionalInfo.findMany({
         where: {
@@ -421,13 +405,12 @@ app.get('/profile/additional_info/:userID/:profileID', async (req, res) => {
           profileID: parseInt(profileID),
         },
       });
-
       res.status(200).json(additionalInfo);
     } catch (error) {
       console.error('Error fetching additional info:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
+} );
 
 
 
@@ -449,9 +432,9 @@ app.get('/compare/students/all', async (req, res) => {
       console.error('Error fetching students:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  });
+} );
 
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-});
+} );

@@ -7,8 +7,6 @@ function CreateAProfile({userID}) {
   const [bio, setBio] = useState('');
   const [role, setRole] = useState('');
 
-
-
   const makeProfile = async () => {
     try {
       const requestData = {
@@ -17,7 +15,6 @@ function CreateAProfile({userID}) {
         role,
         userID,
       };
-
       const response = await fetch(`http://localhost:3000/profile`, {
         method: 'POST',
         headers: {
@@ -39,7 +36,7 @@ function CreateAProfile({userID}) {
         <h1>Create a new profile</h1>
         <form className='form' onSubmit={(e) => {
           makeProfile();
-        }}>
+        } }>
           <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
           <textarea type="text" placeholder="What's your goal? What do you hope to acheive?" value={bio} onChange={(e) => setBio(e.target.value)} />
           <select value={role} onChange={(e) => setRole(e.target.value)}>

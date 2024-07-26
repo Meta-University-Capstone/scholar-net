@@ -25,7 +25,6 @@ function Search(){
         }
     }
 
-
     async function handleSearchDisplay(query){
         try {
             const response = await fetch(`http://localhost:3000/search/${query}`, {
@@ -67,14 +66,13 @@ function Search(){
     };
 
 
-
-    return(
-        <>
-        <h1>Scholar-Net</h1>
-        <Link to={`/`}>
-            <button  className="home-btn">Home</button>
-        </Link>
-        <div className="search-bar">
+  return(
+      <>
+      <h1>Scholar-Net</h1>
+      <Link to={`/`}>
+          <button  className="home-btn">Home</button>
+      </Link>
+      <div className="search-bar">
         <input
           type="text"
           value={searchTerm}
@@ -94,7 +92,7 @@ function Search(){
             <p>Created: {formatDate(post.created_at)}</p>
             <p>Posted by: {post.postUser}</p>
           </div>
-        ))}
+        ) ) }
       </div>
     </>
   );

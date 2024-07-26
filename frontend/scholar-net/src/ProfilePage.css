@@ -1,6 +1,5 @@
-/* General Button Styling */
 button {
-  background-color: #f10000; /* Primary color */
+  background-color: #f10000;
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -46,9 +45,9 @@ button:hover {
 }
 
 .modal-content button:hover {
-  background-color: #0056b3; /* Darker shade for hover */
-  transform: scale(1.05); /* Slightly enlarges on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -61,13 +60,11 @@ button:hover {
   margin: 20px;
 }
 
-/* Ensure visibility of the edit profile button */
 .profile-info button {
-  display: inline-block; /* Ensure it is shown as a block element */
-  margin-top: 20px; /* Space above the button */
+  display: inline-block;
+  margin-top: 20px;
 }
 
-/* Modal Overlay and Content Styling */
 .modal-overlay {
   position: fixed;
   top: 0;
