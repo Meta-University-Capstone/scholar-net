@@ -219,7 +219,12 @@ function FeedList(props){
 
 
 
+
     const calculateScore = (profile, post) => {
+=======
+
+      const calculateScore = (profile, post) => {
+
         try{
             let score = 0;
 
@@ -281,6 +286,7 @@ function FeedList(props){
     });
     return posts;
   };
+
 
 
     return(
