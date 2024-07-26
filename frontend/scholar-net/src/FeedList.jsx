@@ -2,47 +2,15 @@ import Post from './Post'
 import './FeedList.css'
 import { useState, useEffect } from 'react'
 
-function murmurHash3(str, seed = 0) {
-    const bytes = new TextEncoder().encode(str);
-    let h1 = seed ^ bytes.length;
-    let i = 0;
-    let len = bytes.length;
-
-    while (len >= 4) {
-        let k1 = bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24);
-        i += 4;
-        len -= 4;
-
-        k1 = ((k1 * 0xcc9e2d51) >>> 0);
-        k1 = (k1 << 15) | (k1 >>> (32 - 15));
-        k1 = ((k1 * 0x1b873593) >>> 0);
-        h1 ^= k1;
-        h1 = (h1 << 13) | (h1 >>> (32 - 13));
-        h1 = ((h1 * 5 + 0xe6546b64) >>> 0);
+function djb2Hash(str) {
+    // initializing hash value with a prime number
+    let hash = 5381;
+    // iterating over each character in the string
+    for (let i = 0; i < str.length; i++) {
+    // multiplying the current hash by 33 and then mix in the value of the current character from the string
+        hash = (hash * 33) ^ str.charCodeAt(i);
     }
-
-    let k1 = 0;
-    switch (len) {
-        case 3:
-            k1 ^= bytes[i + 2] << 16;
-        case 2:
-            k1 ^= bytes[i + 1] << 8;
-        case 1:
-            k1 ^= bytes[i];
-            k1 = ((k1 * 0xcc9e2d51) >>> 0);
-            k1 = (k1 << 15) | (k1 >>> (32 - 15));
-            k1 = ((k1 * 0x1b873593) >>> 0);
-            h1 ^= k1;
-    }
-
-    h1 ^= bytes.length;
-    h1 = h1 ^ (h1 >>> 16);
-    h1 = ((h1 * 0x85ebca6b) >>> 0);
-    h1 = h1 ^ (h1 >>> 13);
-    h1 = ((h1 * 0xc2b2ae35) >>> 0);
-    h1 = h1 ^ (h1 >>> 16);
-
-    return h1 >>> 0;
+    return hash >>> 0; // changing the hash value to a positive whole number that fits within a 32-bit space
 }
 
 class BloomFilter {
@@ -53,25 +21,52 @@ class BloomFilter {
     }
 
     add(element) {
-      const hashValues = this.getHashValues(element);
+      const hashValues = this.getDynamicHashValues(element)
       hashValues.forEach(hash => {
         this.bitArray[hash] = true;
       });
     }
 
     contains(element) {
-      const hashValues = this.getHashValues(element);
+      const hashValues = this.getDynamicHashValues(element)
       return hashValues.every(hash => this.bitArray[hash]);
     }
 
-    getHashValues(element) {
-      const hashes = [];
-      for (let i = 0; i < this.numHashFunctions; i++) {
-        hashes.push(murmurHash3(element.toString(), i) % this.size);
-      }
-      return hashes;
+    getDynamicHashValues(element) {
+        const hashes = [];
+        const elementString = element.toString();
+        // using a mix of different hash functions or parameters based on data
+        for (let i = 0; i < this.numHashFunctions; i++) {
+            // dynamic adjustment based on element characteristics
+            const adjustedHash = this.dynamicHashFunction(elementString, i);
+            hashes.push(adjustedHash % this.size);
+        }
+        return hashes;
     }
-  }
+
+    dynamicHashFunction(element, index) {
+        // base hash calculation
+        const baseHash = djb2Hash(element, index);
+        // applying different transformations based on index
+        if (index % 2 === 0) {
+            // for even indices, apply a bitwise operation
+            return baseHash ^ (index * 1540483477);
+        } else {
+            // for odd indices, apply a different transformation
+            return (baseHash * 468560273) >>> 0;
+        }
+    }
+
+    setBits(hashValues) {
+        hashValues.forEach(hash => {
+            let complexHash = hash;
+            // applying a large constant multiplier and convert to positive whole number that fits within a 32-bit space
+            complexHash = (complexHash * 2246822507) >>> 0;
+            // computing the index in the bitArray and set the bit to true
+            this.bitArray[complexHash % this.size] = true;
+        });
+    }
+}
 
 
 function FeedList(props){
