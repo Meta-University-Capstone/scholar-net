@@ -2,6 +2,49 @@ import Post from './Post'
 import './FeedList.css'
 import { useState, useEffect } from 'react'
 
+function murmurHash3(str, seed = 0) {
+    const bytes = new TextEncoder().encode(str);
+    let h1 = seed ^ bytes.length;
+    let i = 0;
+    let len = bytes.length;
+
+    while (len >= 4) {
+        let k1 = bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24);
+        i += 4;
+        len -= 4;
+
+        k1 = ((k1 * 0xcc9e2d51) >>> 0);
+        k1 = (k1 << 15) | (k1 >>> (32 - 15));
+        k1 = ((k1 * 0x1b873593) >>> 0);
+        h1 ^= k1;
+        h1 = (h1 << 13) | (h1 >>> (32 - 13));
+        h1 = ((h1 * 5 + 0xe6546b64) >>> 0);
+    }
+
+    let k1 = 0;
+    switch (len) {
+        case 3:
+            k1 ^= bytes[i + 2] << 16;
+        case 2:
+            k1 ^= bytes[i + 1] << 8;
+        case 1:
+            k1 ^= bytes[i];
+            k1 = ((k1 * 0xcc9e2d51) >>> 0);
+            k1 = (k1 << 15) | (k1 >>> (32 - 15));
+            k1 = ((k1 * 0x1b873593) >>> 0);
+            h1 ^= k1;
+    }
+
+    h1 ^= bytes.length;
+    h1 = h1 ^ (h1 >>> 16);
+    h1 = ((h1 * 0x85ebca6b) >>> 0);
+    h1 = h1 ^ (h1 >>> 13);
+    h1 = ((h1 * 0xc2b2ae35) >>> 0);
+    h1 = h1 ^ (h1 >>> 16);
+
+    return h1 >>> 0;
+}
+
 class BloomFilter {
     constructor(size, numHashFunctions) {
       this.size = size;
@@ -24,30 +67,9 @@ class BloomFilter {
     getHashValues(element) {
       const hashes = [];
       for (let i = 0; i < this.numHashFunctions; i++) {
-        hashes.push(this.hashFunction(element, i) % this.size);
+        hashes.push(murmurHash3(element.toString(), i) % this.size);
       }
       return hashes;
-    }
-
-    hashFunction(element, index) {
-      let hash = 0;
-      const str = element.toString();
-
-      for (let i = 0; i < str.length; i++) {
-        hash = (hash << 5) - hash + str.charCodeAt(i);
-        hash |= 0;
-      }
-
-
-      hash ^= index;
-      hash += ~(hash << 15);
-      hash ^= (hash >>> 10);
-      hash += (hash << 3);
-      hash ^= (hash >>> 6);
-      hash += ~(hash << 11);
-      hash ^= (hash >>> 16);
-
-      return hash >>> 0;
     }
   }
 
