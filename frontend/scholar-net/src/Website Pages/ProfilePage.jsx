@@ -2,9 +2,9 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './ProfilePage.css'
-import Profile from "./Profile";
-import Post from "./Post";
-import AdditionalInfo from "./AdditionalInfo";
+import Profile from "../Page Components/Profile";
+import Post from "../Page Components/Post";
+import AdditionalInfo from "../Forms/AdditionalInfo";
 
 
 function ProfilePage(){

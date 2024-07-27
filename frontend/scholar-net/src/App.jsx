@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Login from './Login'
-import Register from './Register'
-import Home from './Home'
-import Search from './Search'
-import ProfilePage from './ProfilePage'
-import OtherUserProfile from './OtherUserProfile'
-import CompareChart from './CompareChart'
+import Login from './Authentication/Login'
+import Register from './Authentication/Register'
+import Home from './Website Pages/Home'
+import Search from './Website Pages/Search'
+import ProfilePage from './Website Pages/ProfilePage'
+import OtherUserProfile from './Website Pages/OtherUserProfile'
+import CompareChart from './Data Visualization/CompareChart'
 
 
 

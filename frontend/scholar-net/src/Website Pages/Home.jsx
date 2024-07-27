@@ -1,13 +1,13 @@
 import './Home.css'
-import ConnectionsSidebar from "./ConnectionsSidebar";
+import ConnectionsSidebar from "../Page Components/ConnectionsSidebar";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import CreateAProfile from "./CreateAProfile";
-import { auth } from "./firebase";
-import AuthDetails from "./AuthDetails";
-import CreateAPost from "./CreateAPost";
-import FeedList from "./FeedList";
+import CreateAProfile from "../Forms/CreateAProfile";
+import { auth } from "../firebase";
+import AuthDetails from "../Authentication/AuthDetails";
+import CreateAPost from "../Forms/CreateAPost";
+import FeedList from "../Page Components/FeedList";
 
 
 

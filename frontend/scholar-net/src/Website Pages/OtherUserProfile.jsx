@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import Profile from "./Profile";
-import Post from "./Post";
-import { auth } from "./firebase";
+import Profile from "../Page Components/Profile";
+import Post from "../Page Components/Post";
+import { auth } from "../firebase";
 
 
 function OtherUserProfile() {
